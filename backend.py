@@ -2,8 +2,10 @@
 
 import requests
 import json
+import datetime
 
-def get_weather(json_object):
+
+def wttr_in_payload_generation(json_object):
     payload = {}
     current_condition = {}
     payload_hourly_list = []
@@ -45,7 +47,8 @@ def get_weather(json_object):
 
     # Payload Dictionary
     # Key will be Country, areaName, Date
-    key = (json_object["nearest_area"][0]["country"][0]["value"] + ", " + json_object["nearest_area"][0]["region"][0]["value"] + ", " + json_object["weather"][0]["date"])
+    key = (json_object["nearest_area"][0]["country"][0]["value"] + ", " + json_object["nearest_area"][0]["region"][0][
+        "value"] + ", " + json_object["weather"][0]["date"])
 
     payload[key] = {"current_condition": current_condition, "hourly": payload_hourly_list, "weather": weather}
 
@@ -58,10 +61,10 @@ def get_weather(json_object):
 
 
 def get_weather_from_WTTRIN(Country):
-    country = Country.strip()
-    site = "https://wttr.in/?"+country+"&format=j1"
+    country = Country.strip().capitalize()
+    site = "https://wttr.in/" + country + "?format=j1"
     weather_json = requests.get(site).json()
-    payload = get_weather(weather_json) # This payload will be saved to database
+    payload = wttr_in_payload_generation(weather_json)  # This payload will be saved to database
 
     # Save to file
     # All weather data will be saved to a file
@@ -109,7 +112,7 @@ def get_weather_from_database(country, areaName, date):
     pass
 
 
-def frontend_get_weather(country, areaName, date): # This function will be called by frontend
+def frontend_get_weather(country, areaName, date):  # This function will be called by frontend
     # Get weather from database
     # If not found, get weather from WTTRIN
     weather_payload = get_weather_from_WTTRIN(country)
@@ -117,6 +120,24 @@ def frontend_get_weather(country, areaName, date): # This function will be calle
     # Return weather_payload
     pass
 
+
+def old_data_rubbish_collection():
+    # Get date 7 days ago (Can be changed to later date)
+    date_to_delete = datetime.datetime.now().date() - datetime.timedelta(days=7)
+
+    with open("weather.json", "r") as outfile:
+        weather_list = json.load(outfile)
+        outfile.close()
+
+    # Delete all data older than 1 week
+    for item in weather_list:
+        item_date = item["weather"][0]["date"]
+        if datetime.datetime.strptime(item_date, '%Y-%m-%d').date() < date_to_delete:
+            weather_list.remove(item)
+
+    with open("weather.json", "w") as outfile:
+        json.dump(weather_list, outfile)
+        outfile.close()
 def get_latest_weather_from_file():
     file = "weather.json"
     weather_list = []
@@ -135,6 +156,8 @@ def printKeys(json_object):
 
 def main():
     get_weather_from_WTTRIN("Singapore")
+    #get_weather_from_WTTRIN("India")
+    #old_data_rubbish_collection()
 
 
 if __name__ == '__main__':
