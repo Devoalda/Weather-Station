@@ -70,9 +70,38 @@ def get_weather_from_WTTRIN(Country):
     # All weather data will be saved to a file
     save_weather_to_file(weather_json)
 
+    # save payload to file
+    save_payload_to_file(payload)
+
     # Save payload to database
     # Only payload will be saved to database
 
+def save_payload_to_file(json_object):
+    payload_list = []
+    file = "payload_DB.json"
+
+    # Create file if it does not exist
+    with open(file, "a") as outfile:
+        outfile.close()
+
+    # Check if file is empty
+    if (open(file, "r").read() == ""):
+        with open(file, "w") as outfile:
+            payload_list.append(json_object)
+            json.dump(payload_list, outfile, indent=4)
+            outfile.close()
+            return
+
+    # read in a list of dictionaries
+    with open(file, "r") as outfile:
+        payload_list = json.load(outfile)
+        outfile.close()
+
+    payload_list.append(json_object)
+
+    with open(file, "w") as outfile:
+        json.dump(payload_list, outfile, indent=4)
+        outfile.close()
 
 def save_weather_to_file(json_object):
     weather_list = []
@@ -86,7 +115,7 @@ def save_weather_to_file(json_object):
     if (open(file, "r").read() == ""):
         with open(file, "w") as outfile:
             weather_list.append(json_object)
-            json.dump(weather_list, outfile)
+            json.dump(weather_list, outfile, indent=4)
             outfile.close()
             return
 
@@ -98,7 +127,7 @@ def save_weather_to_file(json_object):
     weather_list.append(json_object)
 
     with open("weather.json", "w") as outfile:
-        json.dump(weather_list, outfile)
+        json.dump(weather_list, outfile, indent=4)
         outfile.close()
 
 
@@ -156,7 +185,16 @@ def printKeys(json_object):
 
 def main():
     get_weather_from_WTTRIN("Singapore")
-    #get_weather_from_WTTRIN("India")
+    get_weather_from_WTTRIN("Vietnam")
+    get_weather_from_WTTRIN("Malaysia")
+    get_weather_from_WTTRIN("Thailand")
+    get_weather_from_WTTRIN("Indonesia")
+    get_weather_from_WTTRIN("India")
+    get_weather_from_WTTRIN("China")
+    get_weather_from_WTTRIN("Japan")
+    get_weather_from_WTTRIN("Korea")
+    get_weather_from_WTTRIN("Taiwan")
+
     #old_data_rubbish_collection()
 
 
