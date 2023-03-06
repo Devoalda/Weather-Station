@@ -1,0 +1,47 @@
+body {
+    background: lightgrey;
+}
+
+hr {
+
+}
+
+.banner {
+    opacity: 0.6;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    z-index: 0;
+}
+
+.searchBar {
+    position: absolute;
+    left: 5%;
+    top: 20%;
+    z-index: 1;
+    width: 30%;
+}
+
+.rowSpace {
+    padding: 20px;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.floatLeft {
+    display: block;
+    text-align: left;
+    float: left;
+}
+
+.floatRight {
+    display: block;
+    text-align: right;
+    float: right;
+}

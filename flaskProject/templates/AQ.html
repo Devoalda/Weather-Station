@@ -1,0 +1,15 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title text-center">Humidity</h5>
+        <div class="{{ humidity.get('css') }}">
+            <span>{{ humidity.get('val') }}</span>
+            <div class="slice">
+                <div class="bar"></div>
+                <div class="fill"></div>
+            </div>
+        </div>
+        <div class="card-body">
+            The relative humidity reading is the amount of water vapor the air holds at any given time.
+        </div>
+    </div>
+</div>
