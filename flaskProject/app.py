@@ -1,6 +1,7 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, url_for, flash, redirect
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '***REMOVED***'
 data = {'Vietnam, , 2023-03-03': {
     'current_condition': {'temp_C': '25', 'humidity': '43', 'weatherDesc': 'Sunny', 'windspeed': '9', 'winddir': 'NE',
                           'country': 'Vietnam', 'region': 'Vietnam'}, 'hourly': [
@@ -78,8 +79,15 @@ data = {'Vietnam, , 2023-03-03': {
          'winddirDegree': '46', 'windspeedKmph': '8', 'windspeedMiles': '5'}],
     'weather': {'maxtemp': '28', 'mintemp': '8'}}}
 
-@app.route('/')
+@app.route('/',methods=['GET', 'POST'])
 def index():  # put application's code here
+    if request.method == 'POST':
+        location = request.form['location']
+        if not location:
+            flash('Please enter a valid location')
+        if location:
+            flash('This is the entered ' + location)
+            return redirect('location/country='+location)
     def getHumidity():
         air = data.get('Vietnam, , 2023-03-03').get("current_condition").get("humidity")
         circleProgress = {
@@ -95,6 +103,10 @@ def index():  # put application's code here
         "values": [100, 200, 300],
     }
     return render_template("index.html", title="New title", context=context, humidity=getHumidity(), hourlyData=getHourData())
+
+@app.route('/location/<country>')
+def location(country):
+    return 'The value is: ' + country
 
 
 if __name__ == '__main__':
