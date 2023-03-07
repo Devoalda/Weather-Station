@@ -1,8 +1,13 @@
 #!/usr/bin/env python
+import ssl
 
 import requests
 import json
 import datetime
+import time, threading
+from socket import *
+from threading import Thread
+from pprint import pprint
 
 
 def wttr_in_payload_generation(json_object):
@@ -22,8 +27,10 @@ def wttr_in_payload_generation(json_object):
 
     if json_object["nearest_area"][0]["region"][0]["value"] == "":
         current_condition["region"] = json_object["nearest_area"][0]["country"][0]["value"]
+        region = json_object["nearest_area"][0]["country"][0]["value"]
     else:
         current_condition["region"] = json_object["nearest_area"][0]["region"][0]["value"]
+        region = json_object["nearest_area"][0]["region"][0]["value"]
 
     # Hourly Dictionary
     hourly_list = json_object["weather"][0]["hourly"]
@@ -47,15 +54,9 @@ def wttr_in_payload_generation(json_object):
 
     # Payload Dictionary
     # Key will be Country, areaName, Date
-    key = (json_object["nearest_area"][0]["country"][0]["value"] + ", " + json_object["nearest_area"][0]["region"][0][
-        "value"] + ", " + json_object["weather"][0]["date"])
+    key = (json_object["nearest_area"][0]["country"][0]["value"] + ", " + str(region) + ", " + json_object["weather"][0]["date"])
 
     payload[key] = {"current_condition": current_condition, "hourly": payload_hourly_list, "weather": weather}
-
-    # Write sample payload of what fronend will receive
-    # with open("payload.json", "w") as outfile:
-    #     json.dump(payload, outfile)
-    #     outfile.close()
 
     return payload
 
@@ -65,6 +66,7 @@ def get_weather_from_WTTRIN(Country):
     site = "https://wttr.in/" + country + "?format=j1"
     weather_json = requests.get(site).json()
     payload = wttr_in_payload_generation(weather_json)  # This payload will be saved to database
+    #pprint(payload)
 
     # Save to file
     # All weather data will be saved to a file
@@ -75,6 +77,8 @@ def get_weather_from_WTTRIN(Country):
 
     # Save payload to database
     # Only payload will be saved to database
+
+    return payload
 
 def save_payload_to_file(json_object):
     payload_list = []
@@ -146,8 +150,8 @@ def frontend_get_weather(country, areaName, date):  # This function will be call
     # If not found, get weather from WTTRIN
     weather_payload = get_weather_from_WTTRIN(country)
     # Save to database
-    # Return weather_payload
-    pass
+
+    return weather_payload
 
 
 def old_data_rubbish_collection():
@@ -184,18 +188,24 @@ def printKeys(json_object):
 
 
 def main():
-    get_weather_from_WTTRIN("Singapore")
-    get_weather_from_WTTRIN("Vietnam")
-    get_weather_from_WTTRIN("Malaysia")
-    get_weather_from_WTTRIN("Thailand")
-    get_weather_from_WTTRIN("Indonesia")
-    get_weather_from_WTTRIN("India")
-    get_weather_from_WTTRIN("China")
-    get_weather_from_WTTRIN("Japan")
-    get_weather_from_WTTRIN("Korea")
-    get_weather_from_WTTRIN("Taiwan")
+    pass
+    #cache_Singapore()
+    #get_weather_from_WTTRIN("Singapore")
+    #get_weather_from_WTTRIN("Vietnam")
+    #get_weather_from_WTTRIN("Malaysia")
+    #get_weather_from_WTTRIN("Thailand")
+    #get_weather_from_WTTRIN("Indonesia")
+    #get_weather_from_WTTRIN("India")
+    #get_weather_from_WTTRIN("China")
+    #get_weather_from_WTTRIN("Japan")
+    #get_weather_from_WTTRIN("Korea")
+    #get_weather_from_WTTRIN("Taiwan")
 
     #old_data_rubbish_collection()
+
+    # pprint(frontend_get_weather("Singapore", "Singapore", "2020-05-10"))
+    #tcpServer()
+
 
 
 if __name__ == '__main__':
