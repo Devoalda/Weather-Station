@@ -8,7 +8,8 @@ import time, threading
 from socket import *
 from threading import Thread
 from pprint import pprint
-
+from datetime import date
+import pymongo
 
 def wttr_in_payload_generation(json_object):
     payload = {}
@@ -141,13 +142,48 @@ def save_weather_to_file(json_object):
 
 
 def save_weather_to_database(payload):
-    # Save payload to database
-    pass
+    # open the json file that has been saved
+    with open(payload) as f:
+        # for each dictionary in the list, load it into json and call it data
+        data = json.load(f)
 
+    Database.insert_many(data)
 
-def get_weather_from_database(country, areaName, date):
-    # Get weather from database
-    pass
+class Database():
+    def __init__(self):
+        self.client = pymongo.MongoClient("mongodb://localhost:27017/")
+        self.mydb = self.client["WeatherDatabase"]
+        self.mycol = self.mydb["WeatherCollection"]  
+
+    def insert_one(self, data):
+        # Insert data into database
+        x = self.mycol.insert_one(data)
+
+    def insert_many(self, data):
+        # insert many into database
+        x = self.mycol.insert_many(data)
+
+    def delete_many(self, data):
+        # Delete all data in database
+        x = self.mycol.delete_many({})
+
+    def print_all_data(self):
+        # Print all data in database
+        for y in self.mycol.find():
+            print(y)
+
+    def get_weather_from_database(self, key):
+        for i in self.mycol.find():
+            res = list(i.keys())[1]
+            if res == key:
+                print(i)
+
+today = date.today()
+country = "Singapore, "
+city = "Singapore, "
+date = "2023-03-07"
+key = country + city + date
+get_weather_from_database(key)
 
 
 def frontend_get_weather(country, areaName, date):  # This function will be called by frontend
