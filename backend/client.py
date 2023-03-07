@@ -6,6 +6,7 @@ import ssl
 # Client will use this function to get weather from server
 def get_weather_from_Server(country):
     # Server Config
+    # Change IP to your server IP
     serverIP = "127.0.0.1"
     serverPort = 12000
 

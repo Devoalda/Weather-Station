@@ -4,6 +4,7 @@ from pprint import pprint
 import ssl
 from threading import Thread
 import backend
+import singapore_cache
 
 certificate = "./SSL/certificate.pem"
 privatekey = "./SSL/privatekey.pem"
@@ -39,7 +40,11 @@ def tcpServer():
 
 def main():
     tcpServer()
-    # get current directory
+    # Cache Singapore weather
+    try:
+        singapore_cache.cache_Singapore()
+    except Exception as e:
+        print(e)
 
 
 if __name__ == '__main__':

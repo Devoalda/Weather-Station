@@ -4,6 +4,7 @@ import ssl
 import requests
 import json
 import datetime
+import time, threading
 from socket import *
 from threading import Thread
 from pprint import pprint
@@ -26,8 +27,10 @@ def wttr_in_payload_generation(json_object):
 
     if json_object["nearest_area"][0]["region"][0]["value"] == "":
         current_condition["region"] = json_object["nearest_area"][0]["country"][0]["value"]
+        region = json_object["nearest_area"][0]["country"][0]["value"]
     else:
         current_condition["region"] = json_object["nearest_area"][0]["region"][0]["value"]
+        region = json_object["nearest_area"][0]["region"][0]["value"]
 
     # Hourly Dictionary
     hourly_list = json_object["weather"][0]["hourly"]
@@ -51,15 +54,9 @@ def wttr_in_payload_generation(json_object):
 
     # Payload Dictionary
     # Key will be Country, areaName, Date
-    key = (json_object["nearest_area"][0]["country"][0]["value"] + ", " + json_object["nearest_area"][0]["region"][0][
-        "value"] + ", " + json_object["weather"][0]["date"])
+    key = (json_object["nearest_area"][0]["country"][0]["value"] + ", " + str(region) + ", " + json_object["weather"][0]["date"])
 
     payload[key] = {"current_condition": current_condition, "hourly": payload_hourly_list, "weather": weather}
-
-    # Write sample payload of what fronend will receive
-    # with open("payload.json", "w") as outfile:
-    #     json.dump(payload, outfile)
-    #     outfile.close()
 
     return payload
 
@@ -188,36 +185,9 @@ def printKeys(json_object):
     for key in json_object:
         print(key)
 
-#def child(connectionSocket):
-#    country = connectionSocket.recv(1024).decode()
-#    print("Received: " + country)
-#    weather_payload = frontend_get_weather(country, "", "")
-#    connectionSocket.send(json.dumps(weather_payload).encode())
-#    connectionSocket.close()
-#
-#def tcpServer():
-#    try:
-#        # TCP Server
-#        serverPort = 12000
-#        #serverSocket = socket(AF_INET, SOCK_STREAM)
-#        # TCP with TLS
-#        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-#        context.load_cert_chain('./SSL/certificate.pem', './SSL/privatekey.pem')
-#        serverSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_side=True)
-#        serverSocket.bind(('', serverPort))
-#        serverSocket.listen(1)
-#        print('The server is ready to receive')
-#        while True:
-#            connectionSocket, addr = serverSocket.accept()
-#            print('Connected to :', addr[0], ':', addr[1])
-#            t = Thread(target=child, args=(connectionSocket,))
-#            t.start()
-#    except Exception as e:
-#        print(e)
-#        serverSocket.close()
 
 def main():
-    pass
+    cache_Singapore()
     #get_weather_from_WTTRIN("Singapore")
     #get_weather_from_WTTRIN("Vietnam")
     #get_weather_from_WTTRIN("Malaysia")
