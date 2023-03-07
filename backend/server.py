@@ -4,7 +4,7 @@ from pprint import pprint
 import ssl
 from threading import Thread
 import backend
-import singapore_cache
+# import singapore_cache
 
 certificate = "./SSL/certificate.pem"
 privatekey = "./SSL/privatekey.pem"

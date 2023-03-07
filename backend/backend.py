@@ -62,7 +62,8 @@ def wttr_in_payload_generation(json_object):
 
 
 def get_weather_from_WTTRIN(Country):
-    country = Country.strip().capitalize()
+    # Change all spaces to + and capitalize all first letters
+    country = Country.replace(" ", "+").title()
     site = "https://wttr.in/" + country + "?format=j1"
     weather_json = requests.get(site).json()
     payload = wttr_in_payload_generation(weather_json)  # This payload will be saved to database
@@ -81,7 +82,7 @@ def get_weather_from_WTTRIN(Country):
     return payload
 
 def save_payload_to_file(json_object):
-    payload_list = []
+    payload = {}
     file = "payload_DB.json"
 
     # Create file if it does not exist
@@ -91,20 +92,24 @@ def save_payload_to_file(json_object):
     # Check if file is empty
     if (open(file, "r").read() == ""):
         with open(file, "w") as outfile:
-            payload_list.append(json_object)
-            json.dump(payload_list, outfile, indent=4)
+            # Key for each entry in the payload is the key in json_object
+            key = list(json_object.keys())[0]
+            payload[key] = json_object[key]
+            json.dump(payload, outfile, indent=4)
             outfile.close()
             return
 
     # read in a list of dictionaries
     with open(file, "r") as outfile:
-        payload_list = json.load(outfile)
+        payload = json.load(outfile)
         outfile.close()
 
-    payload_list.append(json_object)
+    # Key for each entry in the payload is the key in json_object
+    key = list(json_object.keys())[0]
+    payload[key] = json_object[key]
 
     with open(file, "w") as outfile:
-        json.dump(payload_list, outfile, indent=4)
+        json.dump(payload, outfile, indent=4)
         outfile.close()
 
 def save_weather_to_file(json_object):
@@ -190,16 +195,16 @@ def printKeys(json_object):
 def main():
     pass
     #cache_Singapore()
-    #get_weather_from_WTTRIN("Singapore")
-    #get_weather_from_WTTRIN("Vietnam")
-    #get_weather_from_WTTRIN("Malaysia")
-    #get_weather_from_WTTRIN("Thailand")
-    #get_weather_from_WTTRIN("Indonesia")
-    #get_weather_from_WTTRIN("India")
-    #get_weather_from_WTTRIN("China")
-    #get_weather_from_WTTRIN("Japan")
-    #get_weather_from_WTTRIN("Korea")
-    #get_weather_from_WTTRIN("Taiwan")
+    get_weather_from_WTTRIN("Singapore")
+    get_weather_from_WTTRIN("Vietnam")
+    get_weather_from_WTTRIN("Malaysia")
+    get_weather_from_WTTRIN("Thailand")
+    get_weather_from_WTTRIN("Indonesia")
+    get_weather_from_WTTRIN("India")
+    get_weather_from_WTTRIN("China")
+    get_weather_from_WTTRIN("Japan")
+    get_weather_from_WTTRIN("South Korea")
+    get_weather_from_WTTRIN("Taiwan")
 
     #old_data_rubbish_collection()
 
