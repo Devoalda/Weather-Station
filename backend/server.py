@@ -41,10 +41,11 @@ def tcpServer():
 def main():
     tcpServer()
     # Cache Singapore weather
-    try:
-        singapore_cache.cache_Singapore()
-    except Exception as e:
-        print(e)
+    # Supposed to run together but its not
+    #try:
+    #    singapore_cache.cache_Singapore()
+    #except Exception as e:
+    #    print(e)
 
 
 if __name__ == '__main__':

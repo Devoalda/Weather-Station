@@ -66,6 +66,7 @@ def get_weather_from_WTTRIN(Country):
     site = "https://wttr.in/" + country + "?format=j1"
     weather_json = requests.get(site).json()
     payload = wttr_in_payload_generation(weather_json)  # This payload will be saved to database
+    #pprint(payload)
 
     # Save to file
     # All weather data will be saved to a file
@@ -187,7 +188,8 @@ def printKeys(json_object):
 
 
 def main():
-    cache_Singapore()
+    pass
+    #cache_Singapore()
     #get_weather_from_WTTRIN("Singapore")
     #get_weather_from_WTTRIN("Vietnam")
     #get_weather_from_WTTRIN("Malaysia")
@@ -201,7 +203,7 @@ def main():
 
     #old_data_rubbish_collection()
 
-    #pprint(frontend_get_weather("Singapore", "Singapore", "2020-05-10"))
+    # pprint(frontend_get_weather("Singapore", "Singapore", "2020-05-10"))
     #tcpServer()
 
 
