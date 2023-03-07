@@ -1608,5 +1608,810 @@
                 "mintemp": "24"
             }
         }
+    },
+    {
+        "Singapore, Singapore, 2023-03-07": {
+            "current_condition": {
+                "temp_C": "27",
+                "humidity": "79",
+                "weatherDesc": "Light rain shower",
+                "windspeed": "24",
+                "winddir": "N",
+                "country": "Singapore",
+                "region": "Singapore"
+            },
+            "hourly": [
+                {
+                    "avgtemp": "25",
+                    "date": "0",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "87",
+                    "weatherDesc": "Clear",
+                    "winddir": "NNE",
+                    "windspeedkmph": "21"
+                },
+                {
+                    "avgtemp": "24",
+                    "date": "300",
+                    "chancerain": "61",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.6",
+                    "humidity": "89",
+                    "weatherDesc": "Patchy rain possible",
+                    "winddir": "N",
+                    "windspeedkmph": "19"
+                },
+                {
+                    "avgtemp": "24",
+                    "date": "600",
+                    "chancerain": "73",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.4",
+                    "humidity": "89",
+                    "weatherDesc": "Patchy rain possible",
+                    "winddir": "N",
+                    "windspeedkmph": "17"
+                },
+                {
+                    "avgtemp": "25",
+                    "date": "900",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "86",
+                    "weatherDesc": "Partly cloudy",
+                    "winddir": "N",
+                    "windspeedkmph": "19"
+                },
+                {
+                    "avgtemp": "28",
+                    "date": "1200",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "73",
+                    "weatherDesc": "Cloudy",
+                    "winddir": "NNE",
+                    "windspeedkmph": "16"
+                },
+                {
+                    "avgtemp": "28",
+                    "date": "1500",
+                    "chancerain": "68",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "1.5",
+                    "humidity": "74",
+                    "weatherDesc": "Light rain shower",
+                    "winddir": "N",
+                    "windspeedkmph": "21"
+                },
+                {
+                    "avgtemp": "27",
+                    "date": "1800",
+                    "chancerain": "67",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.9",
+                    "humidity": "77",
+                    "weatherDesc": "Light rain shower",
+                    "winddir": "NNE",
+                    "windspeedkmph": "24"
+                },
+                {
+                    "avgtemp": "26",
+                    "date": "2100",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "84",
+                    "weatherDesc": "Clear",
+                    "winddir": "NNE",
+                    "windspeedkmph": "21"
+                }
+            ],
+            "weather": {
+                "maxtemp": "28",
+                "mintemp": "24"
+            }
+        }
+    },
+    {
+        "Singapore, Singapore, 2023-03-07": {
+            "current_condition": {
+                "temp_C": "27",
+                "humidity": "79",
+                "weatherDesc": "Light rain shower",
+                "windspeed": "24",
+                "winddir": "N",
+                "country": "Singapore",
+                "region": "Singapore"
+            },
+            "hourly": [
+                {
+                    "avgtemp": "25",
+                    "date": "0",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "87",
+                    "weatherDesc": "Clear",
+                    "winddir": "NNE",
+                    "windspeedkmph": "21"
+                },
+                {
+                    "avgtemp": "24",
+                    "date": "300",
+                    "chancerain": "61",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.6",
+                    "humidity": "89",
+                    "weatherDesc": "Patchy rain possible",
+                    "winddir": "N",
+                    "windspeedkmph": "19"
+                },
+                {
+                    "avgtemp": "24",
+                    "date": "600",
+                    "chancerain": "73",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.4",
+                    "humidity": "89",
+                    "weatherDesc": "Patchy rain possible",
+                    "winddir": "N",
+                    "windspeedkmph": "17"
+                },
+                {
+                    "avgtemp": "25",
+                    "date": "900",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "86",
+                    "weatherDesc": "Partly cloudy",
+                    "winddir": "N",
+                    "windspeedkmph": "19"
+                },
+                {
+                    "avgtemp": "28",
+                    "date": "1200",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "73",
+                    "weatherDesc": "Cloudy",
+                    "winddir": "NNE",
+                    "windspeedkmph": "16"
+                },
+                {
+                    "avgtemp": "28",
+                    "date": "1500",
+                    "chancerain": "68",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "1.5",
+                    "humidity": "74",
+                    "weatherDesc": "Light rain shower",
+                    "winddir": "N",
+                    "windspeedkmph": "21"
+                },
+                {
+                    "avgtemp": "27",
+                    "date": "1800",
+                    "chancerain": "67",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.9",
+                    "humidity": "77",
+                    "weatherDesc": "Light rain shower",
+                    "winddir": "NNE",
+                    "windspeedkmph": "24"
+                },
+                {
+                    "avgtemp": "26",
+                    "date": "2100",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "84",
+                    "weatherDesc": "Clear",
+                    "winddir": "NNE",
+                    "windspeedkmph": "21"
+                }
+            ],
+            "weather": {
+                "maxtemp": "28",
+                "mintemp": "24"
+            }
+        }
+    },
+    {
+        "Vietnam, Vietnam, 2023-03-07": {
+            "current_condition": {
+                "temp_C": "25",
+                "humidity": "56",
+                "weatherDesc": "Partly cloudy",
+                "windspeed": "18",
+                "winddir": "SSE",
+                "country": "Vietnam",
+                "region": "Vietnam"
+            },
+            "hourly": [
+                {
+                    "avgtemp": "19",
+                    "date": "0",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "85",
+                    "weatherDesc": "Overcast",
+                    "winddir": "SSE",
+                    "windspeedkmph": "8"
+                },
+                {
+                    "avgtemp": "19",
+                    "date": "300",
+                    "chancerain": "76",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.1",
+                    "humidity": "87",
+                    "weatherDesc": "Patchy rain possible",
+                    "winddir": "SE",
+                    "windspeedkmph": "7"
+                },
+                {
+                    "avgtemp": "18",
+                    "date": "600",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "85",
+                    "weatherDesc": "Cloudy",
+                    "winddir": "ESE",
+                    "windspeedkmph": "7"
+                },
+                {
+                    "avgtemp": "21",
+                    "date": "900",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "69",
+                    "weatherDesc": "Overcast",
+                    "winddir": "ESE",
+                    "windspeedkmph": "11"
+                },
+                {
+                    "avgtemp": "25",
+                    "date": "1200",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "57",
+                    "weatherDesc": "Partly cloudy",
+                    "winddir": "SE",
+                    "windspeedkmph": "13"
+                },
+                {
+                    "avgtemp": "25",
+                    "date": "1500",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "56",
+                    "weatherDesc": "Partly cloudy",
+                    "winddir": "SSE",
+                    "windspeedkmph": "18"
+                },
+                {
+                    "avgtemp": "22",
+                    "date": "1800",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "70",
+                    "weatherDesc": "Sunny",
+                    "winddir": "SE",
+                    "windspeedkmph": "15"
+                },
+                {
+                    "avgtemp": "20",
+                    "date": "2100",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "81",
+                    "weatherDesc": "Clear",
+                    "winddir": "SE",
+                    "windspeedkmph": "10"
+                }
+            ],
+            "weather": {
+                "maxtemp": "26",
+                "mintemp": "19"
+            }
+        }
+    },
+    {
+        "Singapore, Singapore, 2023-03-07": {
+            "current_condition": {
+                "temp_C": "27",
+                "humidity": "79",
+                "weatherDesc": "Light rain shower",
+                "windspeed": "24",
+                "winddir": "N",
+                "country": "Singapore",
+                "region": "Singapore"
+            },
+            "hourly": [
+                {
+                    "avgtemp": "25",
+                    "date": "0",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "87",
+                    "weatherDesc": "Clear",
+                    "winddir": "NNE",
+                    "windspeedkmph": "21"
+                },
+                {
+                    "avgtemp": "24",
+                    "date": "300",
+                    "chancerain": "61",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.6",
+                    "humidity": "89",
+                    "weatherDesc": "Patchy rain possible",
+                    "winddir": "N",
+                    "windspeedkmph": "19"
+                },
+                {
+                    "avgtemp": "24",
+                    "date": "600",
+                    "chancerain": "73",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.4",
+                    "humidity": "89",
+                    "weatherDesc": "Patchy rain possible",
+                    "winddir": "N",
+                    "windspeedkmph": "17"
+                },
+                {
+                    "avgtemp": "25",
+                    "date": "900",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "86",
+                    "weatherDesc": "Partly cloudy",
+                    "winddir": "N",
+                    "windspeedkmph": "19"
+                },
+                {
+                    "avgtemp": "28",
+                    "date": "1200",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "73",
+                    "weatherDesc": "Cloudy",
+                    "winddir": "NNE",
+                    "windspeedkmph": "16"
+                },
+                {
+                    "avgtemp": "28",
+                    "date": "1500",
+                    "chancerain": "68",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "1.5",
+                    "humidity": "74",
+                    "weatherDesc": "Light rain shower",
+                    "winddir": "N",
+                    "windspeedkmph": "21"
+                },
+                {
+                    "avgtemp": "27",
+                    "date": "1800",
+                    "chancerain": "67",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.9",
+                    "humidity": "77",
+                    "weatherDesc": "Light rain shower",
+                    "winddir": "NNE",
+                    "windspeedkmph": "24"
+                },
+                {
+                    "avgtemp": "26",
+                    "date": "2100",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "84",
+                    "weatherDesc": "Clear",
+                    "winddir": "NNE",
+                    "windspeedkmph": "21"
+                }
+            ],
+            "weather": {
+                "maxtemp": "28",
+                "mintemp": "24"
+            }
+        }
+    },
+    {
+        "Vietnam, Vietnam, 2023-03-07": {
+            "current_condition": {
+                "temp_C": "25",
+                "humidity": "56",
+                "weatherDesc": "Partly cloudy",
+                "windspeed": "18",
+                "winddir": "SSE",
+                "country": "Vietnam",
+                "region": "Vietnam"
+            },
+            "hourly": [
+                {
+                    "avgtemp": "19",
+                    "date": "0",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "85",
+                    "weatherDesc": "Overcast",
+                    "winddir": "SSE",
+                    "windspeedkmph": "8"
+                },
+                {
+                    "avgtemp": "19",
+                    "date": "300",
+                    "chancerain": "76",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.1",
+                    "humidity": "87",
+                    "weatherDesc": "Patchy rain possible",
+                    "winddir": "SE",
+                    "windspeedkmph": "7"
+                },
+                {
+                    "avgtemp": "18",
+                    "date": "600",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "85",
+                    "weatherDesc": "Cloudy",
+                    "winddir": "ESE",
+                    "windspeedkmph": "7"
+                },
+                {
+                    "avgtemp": "21",
+                    "date": "900",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "69",
+                    "weatherDesc": "Overcast",
+                    "winddir": "ESE",
+                    "windspeedkmph": "11"
+                },
+                {
+                    "avgtemp": "25",
+                    "date": "1200",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "57",
+                    "weatherDesc": "Partly cloudy",
+                    "winddir": "SE",
+                    "windspeedkmph": "13"
+                },
+                {
+                    "avgtemp": "25",
+                    "date": "1500",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "56",
+                    "weatherDesc": "Partly cloudy",
+                    "winddir": "SSE",
+                    "windspeedkmph": "18"
+                },
+                {
+                    "avgtemp": "22",
+                    "date": "1800",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "70",
+                    "weatherDesc": "Sunny",
+                    "winddir": "SE",
+                    "windspeedkmph": "15"
+                },
+                {
+                    "avgtemp": "20",
+                    "date": "2100",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "81",
+                    "weatherDesc": "Clear",
+                    "winddir": "SE",
+                    "windspeedkmph": "10"
+                }
+            ],
+            "weather": {
+                "maxtemp": "26",
+                "mintemp": "19"
+            }
+        }
+    },
+    {
+        "Singapore, Singapore, 2023-03-07": {
+            "current_condition": {
+                "temp_C": "27",
+                "humidity": "79",
+                "weatherDesc": "Light rain shower",
+                "windspeed": "24",
+                "winddir": "N",
+                "country": "Singapore",
+                "region": "Singapore"
+            },
+            "hourly": [
+                {
+                    "avgtemp": "25",
+                    "date": "0",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "87",
+                    "weatherDesc": "Clear",
+                    "winddir": "NNE",
+                    "windspeedkmph": "21"
+                },
+                {
+                    "avgtemp": "24",
+                    "date": "300",
+                    "chancerain": "61",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.6",
+                    "humidity": "89",
+                    "weatherDesc": "Patchy rain possible",
+                    "winddir": "N",
+                    "windspeedkmph": "19"
+                },
+                {
+                    "avgtemp": "24",
+                    "date": "600",
+                    "chancerain": "73",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.4",
+                    "humidity": "89",
+                    "weatherDesc": "Patchy rain possible",
+                    "winddir": "N",
+                    "windspeedkmph": "17"
+                },
+                {
+                    "avgtemp": "25",
+                    "date": "900",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "86",
+                    "weatherDesc": "Partly cloudy",
+                    "winddir": "N",
+                    "windspeedkmph": "19"
+                },
+                {
+                    "avgtemp": "28",
+                    "date": "1200",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "73",
+                    "weatherDesc": "Cloudy",
+                    "winddir": "NNE",
+                    "windspeedkmph": "16"
+                },
+                {
+                    "avgtemp": "28",
+                    "date": "1500",
+                    "chancerain": "68",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "1.5",
+                    "humidity": "74",
+                    "weatherDesc": "Light rain shower",
+                    "winddir": "N",
+                    "windspeedkmph": "21"
+                },
+                {
+                    "avgtemp": "27",
+                    "date": "1800",
+                    "chancerain": "67",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.9",
+                    "humidity": "77",
+                    "weatherDesc": "Light rain shower",
+                    "winddir": "NNE",
+                    "windspeedkmph": "24"
+                },
+                {
+                    "avgtemp": "26",
+                    "date": "2100",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "84",
+                    "weatherDesc": "Clear",
+                    "winddir": "NNE",
+                    "windspeedkmph": "21"
+                }
+            ],
+            "weather": {
+                "maxtemp": "28",
+                "mintemp": "24"
+            }
+        }
+    },
+    {
+        "Singapore, Singapore, 2023-03-07": {
+            "current_condition": {
+                "temp_C": "27",
+                "humidity": "79",
+                "weatherDesc": "Light rain shower",
+                "windspeed": "24",
+                "winddir": "N",
+                "country": "Singapore",
+                "region": "Singapore"
+            },
+            "hourly": [
+                {
+                    "avgtemp": "25",
+                    "date": "0",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "87",
+                    "weatherDesc": "Clear",
+                    "winddir": "NNE",
+                    "windspeedkmph": "21"
+                },
+                {
+                    "avgtemp": "24",
+                    "date": "300",
+                    "chancerain": "61",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.6",
+                    "humidity": "89",
+                    "weatherDesc": "Patchy rain possible",
+                    "winddir": "N",
+                    "windspeedkmph": "19"
+                },
+                {
+                    "avgtemp": "24",
+                    "date": "600",
+                    "chancerain": "73",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.4",
+                    "humidity": "89",
+                    "weatherDesc": "Patchy rain possible",
+                    "winddir": "N",
+                    "windspeedkmph": "17"
+                },
+                {
+                    "avgtemp": "25",
+                    "date": "900",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "86",
+                    "weatherDesc": "Partly cloudy",
+                    "winddir": "N",
+                    "windspeedkmph": "19"
+                },
+                {
+                    "avgtemp": "28",
+                    "date": "1200",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "73",
+                    "weatherDesc": "Cloudy",
+                    "winddir": "NNE",
+                    "windspeedkmph": "16"
+                },
+                {
+                    "avgtemp": "28",
+                    "date": "1500",
+                    "chancerain": "68",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "1.5",
+                    "humidity": "74",
+                    "weatherDesc": "Light rain shower",
+                    "winddir": "N",
+                    "windspeedkmph": "21"
+                },
+                {
+                    "avgtemp": "27",
+                    "date": "1800",
+                    "chancerain": "67",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.9",
+                    "humidity": "77",
+                    "weatherDesc": "Light rain shower",
+                    "winddir": "NNE",
+                    "windspeedkmph": "24"
+                },
+                {
+                    "avgtemp": "26",
+                    "date": "2100",
+                    "chancerain": "0",
+                    "chancethunder": "0",
+                    "chancewindy": "0",
+                    "precipMM": "0.0",
+                    "humidity": "84",
+                    "weatherDesc": "Clear",
+                    "winddir": "NNE",
+                    "windspeedkmph": "21"
+                }
+            ],
+            "weather": {
+                "maxtemp": "28",
+                "mintemp": "24"
+            }
+        }
     }
 ]

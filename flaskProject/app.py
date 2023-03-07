@@ -1,4 +1,8 @@
 from flask import Flask, render_template, request, url_for, flash, redirect
+import json
+from socket import *
+from pprint import pprint
+import ssl
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '***REMOVED***'
@@ -106,7 +110,25 @@ def index():  # put application's code here
 
 @app.route('/location/<country>')
 def location(country):
-    return 'The value is: ' + country
+    def get_weather_from_Server(country):
+        # Server Config
+        # Change IP to your server IP
+        serverIP = "127.0.0.1"
+        serverPort = 12000
+
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+        context.load_verify_locations('../backend/SSL/certificate.pem')
+        context.check_hostname = False
+
+        clientSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_hostname=serverIP)
+        clientSocket.connect((serverIP, serverPort))
+
+        clientSocket.send(country.encode())
+        buffer = 2048
+        payload = json.JSONDecoder().decode(clientSocket.recv(buffer).decode())
+        clientSocket.close()
+        return payload
+    return get_weather_from_Server(country)
 
 
 if __name__ == '__main__':
