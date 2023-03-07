@@ -1,8 +1,12 @@
 #!/usr/bin/env python
+import ssl
 
 import requests
 import json
 import datetime
+from socket import *
+from threading import Thread
+from pprint import pprint
 
 
 def wttr_in_payload_generation(json_object):
@@ -76,6 +80,8 @@ def get_weather_from_WTTRIN(Country):
     # Save payload to database
     # Only payload will be saved to database
 
+    return payload
+
 def save_payload_to_file(json_object):
     payload_list = []
     file = "payload_DB.json"
@@ -146,8 +152,8 @@ def frontend_get_weather(country, areaName, date):  # This function will be call
     # If not found, get weather from WTTRIN
     weather_payload = get_weather_from_WTTRIN(country)
     # Save to database
-    # Return weather_payload
-    pass
+
+    return weather_payload
 
 
 def old_data_rubbish_collection():
@@ -182,20 +188,52 @@ def printKeys(json_object):
     for key in json_object:
         print(key)
 
+#def child(connectionSocket):
+#    country = connectionSocket.recv(1024).decode()
+#    print("Received: " + country)
+#    weather_payload = frontend_get_weather(country, "", "")
+#    connectionSocket.send(json.dumps(weather_payload).encode())
+#    connectionSocket.close()
+#
+#def tcpServer():
+#    try:
+#        # TCP Server
+#        serverPort = 12000
+#        #serverSocket = socket(AF_INET, SOCK_STREAM)
+#        # TCP with TLS
+#        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+#        context.load_cert_chain('./SSL/certificate.pem', './SSL/privatekey.pem')
+#        serverSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_side=True)
+#        serverSocket.bind(('', serverPort))
+#        serverSocket.listen(1)
+#        print('The server is ready to receive')
+#        while True:
+#            connectionSocket, addr = serverSocket.accept()
+#            print('Connected to :', addr[0], ':', addr[1])
+#            t = Thread(target=child, args=(connectionSocket,))
+#            t.start()
+#    except Exception as e:
+#        print(e)
+#        serverSocket.close()
 
 def main():
-    get_weather_from_WTTRIN("Singapore")
-    get_weather_from_WTTRIN("Vietnam")
-    get_weather_from_WTTRIN("Malaysia")
-    get_weather_from_WTTRIN("Thailand")
-    get_weather_from_WTTRIN("Indonesia")
-    get_weather_from_WTTRIN("India")
-    get_weather_from_WTTRIN("China")
-    get_weather_from_WTTRIN("Japan")
-    get_weather_from_WTTRIN("Korea")
-    get_weather_from_WTTRIN("Taiwan")
+    pass
+    #get_weather_from_WTTRIN("Singapore")
+    #get_weather_from_WTTRIN("Vietnam")
+    #get_weather_from_WTTRIN("Malaysia")
+    #get_weather_from_WTTRIN("Thailand")
+    #get_weather_from_WTTRIN("Indonesia")
+    #get_weather_from_WTTRIN("India")
+    #get_weather_from_WTTRIN("China")
+    #get_weather_from_WTTRIN("Japan")
+    #get_weather_from_WTTRIN("Korea")
+    #get_weather_from_WTTRIN("Taiwan")
 
     #old_data_rubbish_collection()
+
+    #pprint(frontend_get_weather("Singapore", "Singapore", "2020-05-10"))
+    #tcpServer()
+
 
 
 if __name__ == '__main__':
