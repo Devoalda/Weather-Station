@@ -178,12 +178,12 @@ class Database():
             if res == key:
                 print(i)
 
-today = date.today()
-country = "Singapore, "
-city = "Singapore, "
-date = "2023-03-07"
-key = country + city + date
-get_weather_from_database(key)
+#today = date.today()
+#country = "Singapore, "
+#city = "Singapore, "
+#date = "2023-03-07"
+#key = country + city + date
+#get_weather_from_database(key)
 
 
 def frontend_get_weather(country, areaName, date):  # This function will be called by frontend
