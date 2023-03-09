@@ -1,0 +1,36 @@
+<div class="card" style="width: 600px">
+    <div class="card-body">
+        <h5 class="card-title text-center">Today's Weather</h5>
+        <hr/>
+        <div class="row">
+            <div class="col-sm">
+                <div class="row">
+                    <div class="col">
+                        <h3>Date: {{ date }}</h3>
+                        <h3 class="currentTemp">Temperature: {{ currentCondition.get('temp_C') }}&#8451</h3>
+                        <h3>Wind Speed: {{ currentCondition.get('windspeed') }}</h3>
+                        <h3>Wind Direction: {{ currentCondition.get('winddir') }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                {% if currentCondition.get('weatherDesc') == "Clear" or currentCondition.get('weatherDesc') == "Sunny"
+                %}
+                <img class="currentWeather" src="{{ url_for('static',filename='svg/clear_day.svg') }}">
+                <div class="text-center">{{currentCondition.get('weatherDesc')}}</div>
+                {% elif currentCondition.get('weatherDesc') == "Partly cloudy" or currentCondition.get('weatherDesc') ==
+                "Overcast" or currentCondition.get('weatherDesc') == "Fog" or currentCondition.get('temp_C') == "Mist"
+                %}
+                <img class="currentWeather" src="{{ url_for('static',filename='svg/cloudy.svg') }}">
+                <div class="text-center">{{currentCondition.get('weatherDesc')}}</div> {% elif
+                currentCondition.get('weatherDesc') == "Patchy rain possible" or
+                currentCondition.get('weatherDesc') == "Light drizzle" %}
+                <img class="currentWeather" src="{{ url_for('static',filename='svg/rainy.svg') }}">
+                <div class="text-center">{{currentCondition.get('weatherDesc')}}</d> {% endif %}
+            </div>
+        </div>
+        <div class="card-body">
+            <!--            The relative humidity reading is the amount of water vapor the air holds at any given time.-->
+        </div>
+    </div>
+</div>
