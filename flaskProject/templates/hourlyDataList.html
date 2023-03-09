@@ -1,11 +1,15 @@
+
+<div class="card">
+    <h5 class="card-title text-center">Hourly</h5>
+</div>
 <div id="accordion" role="tablist">
     {% for hour in hourlyData %}
         <div class="card">
             {#  Card Header  #}
             <div class="card-header" role="tab" id="headingOne">
                 <h5 class="mb-0">
-                    <a data-toggle="collapse" href="#collapse{{ hour.get("time") }}" aria-expanded="false"
-                       aria-controls="collapse{{ hour.get("time") }}">
+                    <a data-toggle="collapse" href="#collapse{{ hour.get('time') }}" aria-expanded="false"
+                       aria-controls="collapse{{ hour.get('time') }}">
                         {% if hour.get("time") == "0" %}
                             Time: 0000
                         {% elif hour.get("time") == "300" %}

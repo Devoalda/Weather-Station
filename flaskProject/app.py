@@ -1,11 +1,15 @@
+import datetime
+
 from flask import Flask, render_template, request, url_for, flash, redirect
 import json
+import requests
 from socket import *
 from pprint import pprint
 import ssl
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '***REMOVED***'
+geocodeapikey = '***REMOVED***'
 data = {'Vietnam, , 2023-03-03': {
     'current_condition': {'temp_C': '25', 'humidity': '43', 'weatherDesc': 'Sunny', 'windspeed': '9', 'winddir': 'NE',
                           'country': 'Vietnam', 'region': 'Vietnam'}, 'hourly': [
@@ -14,7 +18,7 @@ data = {'Vietnam, , 2023-03-03': {
          'chanceoffog': '0', 'chanceoffrost': '0', 'chanceofhightemp': '0', 'chanceofovercast': '0',
          'chanceofrain': '0', 'chanceofremdry': '91', 'chanceofsnow': '0', 'chanceofsunshine': '88',
          'chanceofthunder': '0', 'chanceofwindy': '0', 'cloudcover': '18', 'humidity': '89', 'precipInches': '0.0',
-         'precipMM': '0.0', 'pressure': '1021', 'pressureInches': '30', 'tempC': '13', 'tempF': '55', 'time': '0',
+         'precipMM': '10.0', 'pressure': '1021', 'pressureInches': '30', 'tempC': '13', 'tempF': '55', 'time': '0',
          'uvIndex': '1', 'visibility': '10', 'visibilityMiles': '6', 'weatherCode': '113',
          'weatherDesc': [{'value': 'Clear'}], 'weatherIconUrl': [{'value': ''}], 'winddir16Point': 'NE',
          'winddirDegree': '41', 'windspeedKmph': '8', 'windspeedMiles': '5'},
@@ -32,7 +36,7 @@ data = {'Vietnam, , 2023-03-03': {
          'chanceoffog': '0', 'chanceoffrost': '0', 'chanceofhightemp': '0', 'chanceofovercast': '43',
          'chanceofrain': '0', 'chanceofremdry': '87', 'chanceofsnow': '0', 'chanceofsunshine': '81',
          'chanceofthunder': '0', 'chanceofwindy': '0', 'cloudcover': '26', 'humidity': '91', 'precipInches': '0.0',
-         'precipMM': '0.0', 'pressure': '1022', 'pressureInches': '30', 'tempC': '10', 'tempF': '50', 'time': '600',
+         'precipMM': '35.0', 'pressure': '1022', 'pressureInches': '30', 'tempC': '10', 'tempF': '50', 'time': '600',
          'uvIndex': '1', 'visibility': '10', 'visibilityMiles': '6', 'weatherCode': '116',
          'weatherDesc': [{'value': 'Partly cloudy'}], 'weatherIconUrl': [{'value': ''}], 'winddir16Point': 'NE',
          'winddirDegree': '37', 'windspeedKmph': '8', 'windspeedMiles': '5'},
@@ -41,7 +45,7 @@ data = {'Vietnam, , 2023-03-03': {
          'chanceoffog': '0', 'chanceoffrost': '0', 'chanceofhightemp': '0', 'chanceofovercast': '0',
          'chanceofrain': '0', 'chanceofremdry': '80', 'chanceofsnow': '0', 'chanceofsunshine': '94',
          'chanceofthunder': '0', 'chanceofwindy': '0', 'cloudcover': '0', 'humidity': '55', 'precipInches': '0.0',
-         'precipMM': '0.0', 'pressure': '1022', 'pressureInches': '30', 'tempC': '20', 'tempF': '67', 'time': '900',
+         'precipMM': '70.0', 'pressure': '1022', 'pressureInches': '30', 'tempC': '20', 'tempF': '67', 'time': '900',
          'uvIndex': '5', 'visibility': '10', 'visibilityMiles': '6', 'weatherCode': '113',
          'weatherDesc': [{'value': 'Sunny'}], 'weatherIconUrl': [{'value': ''}], 'winddir16Point': 'NE',
          'winddirDegree': '39', 'windspeedKmph': '8', 'windspeedMiles': '5'},
@@ -50,7 +54,7 @@ data = {'Vietnam, , 2023-03-03': {
          'chanceoffog': '0', 'chanceoffrost': '0', 'chanceofhightemp': '96', 'chanceofovercast': '0',
          'chanceofrain': '0', 'chanceofremdry': '91', 'chanceofsnow': '0', 'chanceofsunshine': '85',
          'chanceofthunder': '0', 'chanceofwindy': '0', 'cloudcover': '6', 'humidity': '36', 'precipInches': '0.0',
-         'precipMM': '0.0', 'pressure': '1019', 'pressureInches': '30', 'tempC': '28', 'tempF': '82', 'time': '1200',
+         'precipMM': '10.0', 'pressure': '1019', 'pressureInches': '30', 'tempC': '28', 'tempF': '82', 'time': '1200',
          'uvIndex': '7', 'visibility': '10', 'visibilityMiles': '6', 'weatherCode': '113',
          'weatherDesc': [{'value': 'Sunny'}], 'weatherIconUrl': [{'value': ''}], 'winddir16Point': 'NE',
          'winddirDegree': '42', 'windspeedKmph': '7', 'windspeedMiles': '4'},
@@ -68,7 +72,7 @@ data = {'Vietnam, , 2023-03-03': {
          'chanceoffog': '0', 'chanceoffrost': '0', 'chanceofhightemp': '0', 'chanceofovercast': '0',
          'chanceofrain': '0', 'chanceofremdry': '80', 'chanceofsnow': '0', 'chanceofsunshine': '94',
          'chanceofthunder': '0', 'chanceofwindy': '0', 'cloudcover': '3', 'humidity': '71', 'precipInches': '0.0',
-         'precipMM': '0.0', 'pressure': '1019', 'pressureInches': '30', 'tempC': '19', 'tempF': '66', 'time': '1800',
+         'precipMM': '30.0', 'pressure': '1019', 'pressureInches': '30', 'tempC': '19', 'tempF': '66', 'time': '1800',
          'uvIndex': '1', 'visibility': '10', 'visibilityMiles': '6', 'weatherCode': '113',
          'weatherDesc': [{'value': 'Clear'}], 'weatherIconUrl': [{'value': ''}], 'winddir16Point': 'NE',
          'winddirDegree': '43', 'windspeedKmph': '8', 'windspeedMiles': '5'},
@@ -77,13 +81,34 @@ data = {'Vietnam, , 2023-03-03': {
          'chanceoffog': '13', 'chanceoffrost': '0', 'chanceofhightemp': '0', 'chanceofovercast': '88',
          'chanceofrain': '0', 'chanceofremdry': '85', 'chanceofsnow': '0', 'chanceofsunshine': '6',
          'chanceofthunder': '0', 'chanceofwindy': '0', 'cloudcover': '57', 'humidity': '96', 'precipInches': '0.0',
-         'precipMM': '0.0', 'pressure': '1023', 'pressureInches': '30', 'tempC': '14', 'tempF': '57', 'time': '2100',
+         'precipMM': '20.0', 'pressure': '1023', 'pressureInches': '30', 'tempC': '14', 'tempF': '57', 'time': '2100',
          'uvIndex': '1', 'visibility': '2', 'visibilityMiles': '1', 'weatherCode': '143',
          'weatherDesc': [{'value': 'Mist'}], 'weatherIconUrl': [{'value': ''}], 'winddir16Point': 'NE',
          'winddirDegree': '46', 'windspeedKmph': '8', 'windspeedMiles': '5'}],
     'weather': {'maxtemp': '28', 'mintemp': '8'}}}
 
-@app.route('/',methods=['GET', 'POST'])
+
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    def getLocation(pos):
+        response = requests.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + x[0] + "," + x[1] + "&key=" + geocodeapikey)
+        return response
+
+    if request.method == 'POST':
+        location = request.form['location']
+        if not location:
+            flash('Please enter a valid location')
+        if location:
+            x = location.split(",")
+            print(x)
+            jsonBody = getLocation(x).json()
+            print("Region: "+jsonBody['results'][0].get('address_components')[3].get('long_name'))
+            print("Country: " + jsonBody['results'][0].get('address_components')[4].get('long_name'))
+
+    return render_template('search.html')
+
+
+@app.route('/', methods=['GET', 'POST'])
 def index():  # put application's code here
     if request.method == 'POST':
         location = request.form['location']
@@ -91,7 +116,14 @@ def index():  # put application's code here
             flash('Please enter a valid location')
         if location:
             flash('This is the entered ' + location)
-            return redirect('location/country='+location)
+            return redirect('location/country=' + location)
+
+    def getCurrentCondition():
+        res = list(data.keys())[0]
+        cd = data.get(res).get("current_condition")
+        return cd
+
+
     def getHumidity():
         air = data.get('Vietnam, , 2023-03-03').get("current_condition").get("humidity")
         circleProgress = {
@@ -99,14 +131,18 @@ def index():  # put application's code here
             "val": air
         }
         return circleProgress
+
     def getHourData():
         hourlyData = data.get('Vietnam, , 2023-03-03').get("hourly")
         return hourlyData
-    context = {
-        "labels": ["red", "green", "blue"],
-        "values": [100, 200, 300],
-    }
-    return render_template("index.html", title="New title", context=context, humidity=getHumidity(), hourlyData=getHourData())
+
+    def getDate():
+        now = datetime.date.today()
+        return now
+
+    return render_template("index.html", date=getDate(), humidity=getHumidity(),
+                           hourlyData=getHourData(), currentCondition=getCurrentCondition())
+
 
 @app.route('/location/<country>')
 def location(country):
@@ -128,10 +164,16 @@ def location(country):
         payload = json.JSONDecoder().decode(clientSocket.recv(buffer).decode())
         clientSocket.close()
         return payload
+
     return get_weather_from_Server(country)
 
 
 if __name__ == '__main__':
     app.run()
-
-# print(data.get('Vietnam, , 2023-03-03').get("hourly")[0].get("time"))
+[{'long_name': 'BLK 106B', 'short_name': 'BLK 106B', 'types': ['premise']},
+ {'long_name': '106B', 'short_name': '106B', 'types': ['street_number']},
+ {'long_name': 'Canberra Street', 'short_name': 'Canberra St', 'types': ['route']},
+ {'long_name': 'Sembawang', 'short_name': 'Sembawang', 'types': ['neighborhood', 'political']},
+ {'long_name': 'Singapore', 'short_name': 'Singapore', 'types': ['locality', 'political']},
+ {'long_name': 'Singapore', 'short_name': 'SG', 'types': ['country', 'political']},
+ {'long_name': '752106', 'short_name': '752106', 'types': ['postal_code']}]
