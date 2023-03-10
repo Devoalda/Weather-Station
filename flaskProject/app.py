@@ -18,7 +18,7 @@ def search():
             flash('Please enter a valid location')
         if location:
             flash('This is the entered ' + location)
-            return redirect('location/country=' + location)
+            return redirect('location/' + location)
 
     return render_template('search.html')
 
@@ -32,7 +32,7 @@ def index(country):  # put application's code here
         serverPort = 12000
 
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-        context.load_verify_locations('./SSL/certificate.pem')
+        context.load_verify_locations('../backend/SSL/certificate.pem')
         context.check_hostname = False
 
         clientSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_hostname=serverIP)
