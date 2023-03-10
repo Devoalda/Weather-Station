@@ -17,10 +17,23 @@ hr {
     z-index: 0;
 }
 
+.wallpaper {
+    opacity: 0.6;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: auto;
+    background-size: cover;
+    z-index: 0;
+}
+
 .searchBar {
     position: absolute;
-    left: 5%;
-    top: 20%;
+    left: 35%;
+    margin-left: auto;
+    margin-right: auto;
+    top: 40%;
     z-index: 1;
     width: 30%;
 }
@@ -51,4 +64,16 @@ hr {
     margin: 5px;
     color: #970020;
     background-color: #ffd5de;
+}
+
+.currentTemp {
+
+}
+
+.currentWeather {
+    width: 200px;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }

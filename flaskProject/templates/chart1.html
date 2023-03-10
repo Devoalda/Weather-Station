@@ -1,16 +1,31 @@
-<div class="card">
+<div class="card" style="width:600px">
     <div class="card-body">
-        <h5 class="card-title text-center">Upcoming Week Precipitation</h4>
-        <canvas id="myChart1" width="300px" height="240px"></canvas>
+        <h5 class="card-title text-center">Upcoming Week Precipitation</h5>
+        <hr/>
+        <canvas id="myChart1"></canvas>
+                <div class="card-body">
+            Heavy rain — when the precipitation rate is > 7.6 mm (0.30 in) per hour, or between 10 mm (0.39 in) and 50
+            mm (2.0 in) per hour. Violent rain — when the precipitation rate is > 50 mm (2.0 in) per hour.
+        </div>
         <script>
             const ctx = document.getElementById('myChart1').getContext('2d');
             const myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: [{% for item in context.get("labels") %}"{{ item }}",{% endfor %}],
+                    labels: [{% for hour in hourlyData %} {% if hour.get("time") == "0" %}
+                            '0000'
+                        {% elif hour.get("time") == "300" %}
+                            '0300'
+                        {% elif hour.get("time") == "600" %}
+                            '0600'
+                        {% elif hour.get("time") == "900" %}
+                            '0900'
+                        {% else %}
+                            {{ hour.get("time") }}
+                        {% endif %}, {% endfor %}],
                     datasets: [{
-                        label: "Bite exercises complete per month",
-                        data: [{% for item in context.get("values") %}{{ item }}, {% endfor %}],
+                        label: "Precipitaion in Millimeters",
+                        data: [{% for hour in hourlyData %}{{ hour.get('precipMM') }}, {% endfor %}],
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         borderColor: 'rgba(75, 192, 192, 1)',
                         borderWidth: 1

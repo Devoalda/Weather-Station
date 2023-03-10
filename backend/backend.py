@@ -37,19 +37,19 @@ def wttr_in_payload_generation(json_object):
     hourly_list = json_object["weather"][0]["hourly"]
     for item in hourly_list:
         hourly = {}
-        hourly["temp_C"] = item["tempC"]
+        hourly["tempC"] = item["tempC"]
         hourly["time"] = item["time"]
         hourly["chancerain"] = item["chanceofrain"]
         hourly["chancethunder"] = item["chanceofthunder"]
         hourly["chancewindy"] = item["chanceofwindy"]
-        hourly["DewPointC"] = item["DewPointC"]
-        hourly["visibility"] = item["visibility"]
-        hourly["cloudcover"] = item["cloudcover"]
         hourly["precipMM"] = item["precipMM"]
         hourly["humidity"] = item["humidity"]
+        hourly['DewPointC'] = item['DewPointC']
+        hourly['visibility'] = item['visibility']
+        hourly['cloudcover'] = item['cloudcover']
         hourly["weatherDesc"] = item["weatherDesc"][0]["value"]
         hourly["winddir16Point"] = item["winddir16Point"]
-        hourly["windspeedkmph"] = item["windspeedKmph"]
+        hourly["windspeedKmph"] = item["windspeedKmph"]
         payload_hourly_list.append(hourly)
 
     # Weather Dictionary

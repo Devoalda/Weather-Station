@@ -3,30 +3,43 @@
 <div class="container-fluid">
     <div class="row d-flex flex-wrap align-content-center">
         <img class="banner" src="{{ url_for('static',filename='images/weather.jpg') }}">
-        <form method="post">
-            <div class="input-group searchBar">
-                <input type="text" class="form-control" placeholder="Search a Location"
-                       aria-label="Recipient's username" aria-describedby="basic-addon2"
-                       name="location" value="{{ request.form['location'] }}">
-                <div class="input-group-append" style="background: white">
-                    <button class="btn btn-outline-secondary" type="submit">Search</button>
-                </div>
-            </div>
-        </form>
+
     </div>
     <div class="rowSpace"></div>
     <div class="container">
+
+
         <div class="row">
-            <div class="col-sm-4">
-                {% include 'chart1.html' %}
+            <div class="col-sm">
+                <div class="row">
+                    {% include 'currentWeather.html' %}
+                </div>
+                <div class="rowSpace"></div>
+                <div class="row">
+                    {% include 'chart1.html' %}
+                </div>
+                <div class="rowSpace"></div>
+                <div class="row">
+                    {% include 'AQ.html' %}
+                </div>
             </div>
-            <div class="col-sm-4">
-                {% include 'AQ.html' %}
-            </div>
-            <div class="col-sm-4">
+            <div class="rowSpace"></div>
+            <div class="col-sm">
                 {% include 'hourlyDataList.html' %}
             </div>
         </div>
+
+        <!--        <div class="row">-->
+        <!--            <div class="col-sm-4">-->
+        <!--                -->
+        <!--            </div>-->
+        <!--            <div class="col-sm-4">-->
+        <!--                -->
+        <!--            </div>-->
+        <!--            <div class="col-sm-4">-->
+        <!--                -->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
 </div>
 <div class="rowSpace"></div>
