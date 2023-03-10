@@ -1,0 +1,24 @@
+# git clone https://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@github.com/Devoalda/Weather-Station.git
+# File Location: /etc/systemd/system/front_end.service
+# Usage:
+# Insert file in Location
+# Run systemctl daemon-reload (with root if not su)
+# systemctl start front_end.service
+# systemctl enable front_end.service (To enable it on boot)
+
+[Unit]
+Wants=network-online.target
+After=network.target
+Description=Front End of Website
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/Documents/Weather-Station/flaskProject/
+ExecStart=/usr/bin/python app.py
+User=pi
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target
+# WantedBy=default.target
