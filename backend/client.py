@@ -7,7 +7,7 @@ import ssl
 def get_weather_from_Server(country):
     # Server Config
     # Change IP to your server IP
-    serverIP = "192.168.137.10"
+    serverIP = "127.0.0.1"
     serverPort = 12000
 
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
@@ -24,7 +24,7 @@ def get_weather_from_Server(country):
     return payload
 
 def main():
-    pprint(get_weather_from_Server("japan"))
+    pprint(get_weather_from_Server("e"))
 
 
 if __name__ == '__main__':

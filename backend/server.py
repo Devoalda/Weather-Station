@@ -12,6 +12,7 @@ def child(connectionSocket):
     country = connectionSocket.recv(1024).decode()
     print("Received: " + country)
     weather_payload = backend.frontend_get_weather(country, "")
+    #print(weather_payload)
     connectionSocket.send(json.dumps(weather_payload).encode())
     connectionSocket.close()
 

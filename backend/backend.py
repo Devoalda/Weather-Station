@@ -82,7 +82,7 @@ def get_weather_from_WTTRIN(Country):
 
     # Save payload to database
     # Only payload will be saved to database
-    save_weather_to_database(payload)
+    #save_weather_to_database(payload)
 
     return payload
 
@@ -227,28 +227,31 @@ def frontend_get_weather(country, areaName):  # This function will be called by 
     # Get weather from database
     # If not found, get weather from WTTRIN
     weather_payload = get_weather_from_file(country, areaName, date)
+    print(weather_payload)
     if weather_payload is None:
         print("here")
         weather_payload = get_weather_from_WTTRIN(country)
     # Save to database
-
+    print(weather_payload)
     return weather_payload
 
+# TODO: FIX Payload
 def get_weather_from_file(country, areaName, date):
     return_payload = {}
-
     # Get weather from database
     key = country + ", " + areaName + ", " + date
     with open("payload_DB.json", "r") as outfile:
         payload_dict = json.load(outfile)
         outfile.close()
-
     try:
         return_payload = payload_dict[key]
     except KeyError:
         return_payload = None
 
-    return return_payload
+    # TIM NEEDS TO CLEAN THIS
+    ret_payload = {}
+    ret_payload[key] = return_payload
+    return ret_payload
 
 def old_data_rubbish_collection():
     # Get date 7 days ago (Can be changed to later date)
@@ -284,7 +287,7 @@ def printKeys(json_object):
 
 
 def main():
-    #print(frontend_get_weather("Singapore",""))
+    pprint(frontend_get_weather("singapore",""))
     pass
     #cache_Singapore()
     #get_weather_from_WTTRIN("Singapore")

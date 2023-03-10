@@ -28,7 +28,7 @@ def index(country):  # put application's code here
     def get_weather_from_Server(country):
         # Server Config
         # Change IP to your server IP
-        serverIP = "192.168.137.10"
+        serverIP = "127.0.0.1"
         serverPort = 12000
 
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
@@ -39,9 +39,10 @@ def index(country):  # put application's code here
         clientSocket.connect((serverIP, serverPort))
 
         clientSocket.send(country.encode())
-        buffer = 10240
+        buffer = 20480
         payload = json.JSONDecoder().decode(clientSocket.recv(buffer).decode())
         clientSocket.close()
+        print(payload)
         return payload
 
     apiData = get_weather_from_Server(country)
@@ -53,6 +54,7 @@ def index(country):  # put application's code here
 
     def getHumidity(apiData):
         res = list(apiData.keys())[0]
+        print(apiData)
         air = apiData.get(res).get("current_condition").get("humidity")
         circleProgress = {
             "css": "c100 p" + str(air) + " small center",
