@@ -7,7 +7,7 @@ import ssl
 def get_weather_from_Server(country):
     # Server Config
     # Change IP to your server IP
-    serverIP = "127.0.0.1"
+    serverIP = "192.168.137.10"
     serverPort = 12000
 
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)

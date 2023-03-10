@@ -28,11 +28,11 @@ def index(country):  # put application's code here
     def get_weather_from_Server(country):
         # Server Config
         # Change IP to your server IP
-        serverIP = "192.168.137.100"
+        serverIP = "192.168.137.10"
         serverPort = 12000
 
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-        context.load_verify_locations('../backend/SSL/certificate.pem')
+        context.load_verify_locations('./SSL/certificate.pem')
         context.check_hostname = False
 
         clientSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_hostname=serverIP)
