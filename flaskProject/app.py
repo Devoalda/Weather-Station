@@ -10,7 +10,7 @@ import ssl
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '***REMOVED***'
 
-@app.route('/search', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
         location = request.form['location']
