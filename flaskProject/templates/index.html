@@ -3,14 +3,24 @@
 <div class="container-fluid">
     <div class="row d-flex flex-wrap align-content-center">
         <img class="banner" src="{{ url_for('static',filename='images/weather.jpg') }}">
-
     </div>
     <div class="rowSpace"></div>
     <div class="container">
-
-
         <div class="row">
             <div class="col-sm">
+                <div class="row">
+                    <div class="card" style="width: 600px">
+                        <div class="card-body">
+                            <h2 class="card-title text-center">
+                                {% if countryRegion[0] == countryRegion[1] or countryRegion[1]==" " %}
+                                Country: {{ countryRegion[0] }}
+                                {% else %}
+                                Country: {{ countryRegion[0] }}, Region: {{ countryRegion[1] }}
+                                {% endif %}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     {% include 'currentWeather.html' %}
                 </div>
@@ -28,18 +38,6 @@
                 {% include 'hourlyDataList.html' %}
             </div>
         </div>
-
-        <!--        <div class="row">-->
-        <!--            <div class="col-sm-4">-->
-        <!--                -->
-        <!--            </div>-->
-        <!--            <div class="col-sm-4">-->
-        <!--                -->
-        <!--            </div>-->
-        <!--            <div class="col-sm-4">-->
-        <!--                -->
-        <!--            </div>-->
-        <!--        </div>-->
     </div>
 </div>
 <div class="rowSpace"></div>

@@ -1,15 +1,15 @@
 <div class="card" style="width: 600px">
     <div class="card-body">
-        <h5 class="card-title text-center">Today's Weather</h5>
+        <h3 class="card-title text-center">Today's Weather</h3>
         <hr/>
         <div class="row">
             <div class="col-sm">
                 <div class="row">
                     <div class="col">
-                        <h3>Date: {{ date }}</h3>
-                        <h3 class="currentTemp">Temperature: {{ currentCondition.get('temp_C') }}&#8451</h3>
-                        <h3>Wind Speed: {{ currentCondition.get('windspeed') }}</h3>
-                        <h3>Wind Direction: {{ currentCondition.get('winddir') }}</h3>
+                        <h4 class="currentWeatherText padTop">Date: {{ date }}</h4>
+                        <h4 class="currentWeatherText" class="currentTemp">Temperature: {{ currentCondition.get('temp_C') }}&#8451</h4>
+                        <h4 class="currentWeatherText">Wind Speed: {{ currentCondition.get('windspeed') }}</h4>
+                        <h4 class="currentWeatherText">Wind Direction: {{ currentCondition.get('winddir') }}</h4>
                     </div>
                 </div>
             </div>

@@ -24,7 +24,7 @@ def get_weather_from_Server(country):
     return payload
 
 def main():
-    pprint(get_weather_from_Server("e"))
+    pprint(get_weather_from_Server("Egypt"))
 
 
 if __name__ == '__main__':

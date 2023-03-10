@@ -28,7 +28,7 @@ def index(country):  # put application's code here
     def get_weather_from_Server(country):
         # Server Config
         # Change IP to your server IP
-        serverIP = "127.0.0.1"
+        serverIP = "127.0.0.2"
         serverPort = 12001
 
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
@@ -42,10 +42,15 @@ def index(country):  # put application's code here
         buffer = 20480
         payload = json.JSONDecoder().decode(clientSocket.recv(buffer).decode())
         clientSocket.close()
-        print(payload)
+        # print(payload)
         return payload
 
     apiData = get_weather_from_Server(country)
+
+    def countryRegionDetails(data):
+        res = list(apiData.keys())[0].split(",")
+        newList = [res[0].lstrip(),res[1].lstrip()]
+        return newList
 
     def getCurrentCondition(apiData):
         res = list(apiData.keys())[0]
@@ -54,7 +59,6 @@ def index(country):  # put application's code here
 
     def getHumidity(apiData):
         res = list(apiData.keys())[0]
-        print(apiData)
         air = apiData.get(res).get("current_condition").get("humidity")
         circleProgress = {
             "css": "c100 p" + str(air) + " small center",
@@ -65,16 +69,18 @@ def index(country):  # put application's code here
     def getHourData(apiData):
         res = list(apiData.keys())[0]
         hourlyData = apiData.get(res).get("hourly")
-        print(hourlyData)
         return hourlyData
 
     def getDate():
         now = datetime.date.today()
         return now
 
-    return render_template("index.html", date=getDate(), humidity=getHumidity(apiData),
+    return render_template("index.html", date=getDate(), humidity=getHumidity(apiData), countryRegion = countryRegionDetails(apiData),
                            hourlyData=getHourData(apiData), currentCondition=getCurrentCondition(apiData))
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
