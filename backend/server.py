@@ -8,23 +8,27 @@ import backend
 
 certificate = "./SSL/certificate.pem"
 privatekey = "./SSL/privatekey.pem"
+
+SERVER_PORT = 12000
+
 def child(connectionSocket):
     country = connectionSocket.recv(1024).decode()
     print("Received: " + country)
     weather_payload = backend.frontend_get_weather(country, "")
-    #print(weather_payload)
-    connectionSocket.send(json.dumps(weather_payload).encode())
+    if weather_payload == None:
+        connectionSocket.send("Error".encode())
+    else:
+        connectionSocket.send(json.dumps(weather_payload).encode())
     connectionSocket.close()
 
 def tcpServer():
-    serverPort = 12001
     # serverSocket = socket(AF_INET, SOCK_STREAM)
     # TCP with TLS
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
     context.load_cert_chain(certificate, privatekey)
 
     serverSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_side=True)
-    serverSocket.bind(('', serverPort))
+    serverSocket.bind(('', SERVER_PORT))
 
     try:
         # TCP Server
