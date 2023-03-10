@@ -77,11 +77,12 @@ def get_weather_from_WTTRIN(Country):
     # All weather data will be saved to a file
     save_weather_to_file(weather_json)
 
-    # save payload to file
+    # save payload to file (This is the payload that will be sent to the frontend)
     save_payload_to_file(payload)
 
     # Save payload to database
     # Only payload will be saved to database
+    # ADD TRY EXCEPT STATEMENTS
     #save_weather_to_database(payload)
 
     return payload
@@ -117,7 +118,7 @@ def save_payload_to_file(json_object):
         json.dump(payload, outfile, indent=4)
         outfile.close()
 
-def save_weather_to_file(json_object):
+def save_weather_to_file(json_object): # May not be required but just in case cuz there's duplicates
     weather_list = []
     file = "weather.json"
 
@@ -221,36 +222,31 @@ def frontend_get_weather(country, areaName):  # This function will be called by 
 
     country = country.title()
     date = datetime.datetime.now().strftime("%Y-%m-%d")
-    print(date)
+    #print(date)
     if areaName == "":
         areaName = country.title()
     # Get weather from database
     # If not found, get weather from WTTRIN
     weather_payload = get_weather_from_file(country, areaName, date)
-    print(weather_payload)
+    #print(weather_payload)
     if weather_payload is None:
-        print("here")
         weather_payload = get_weather_from_WTTRIN(country)
     # Save to database
-    print(weather_payload)
+    #print(weather_payload)
     return weather_payload
 
-# TODO: FIX Payload
 def get_weather_from_file(country, areaName, date):
-    return_payload = {}
+    ret_payload = {}
     # Get weather from database
     key = country + ", " + areaName + ", " + date
     with open("payload_DB.json", "r") as outfile:
         payload_dict = json.load(outfile)
         outfile.close()
     try:
-        return_payload = payload_dict[key]
+        ret_payload[key] = payload_dict[key]
     except KeyError:
-        return_payload = None
+        ret_payload = None
 
-    # TIM NEEDS TO CLEAN THIS
-    ret_payload = {}
-    ret_payload[key] = return_payload
     return ret_payload
 
 def old_data_rubbish_collection():
@@ -287,10 +283,10 @@ def printKeys(json_object):
 
 
 def main():
-    pprint(frontend_get_weather("singapore",""))
+    #pprint(frontend_get_weather("singapore",""))
     pass
     #cache_Singapore()
-    #get_weather_from_WTTRIN("Singapore")
+    pprint(get_weather_from_WTTRIN("Singapore"))
     #get_weather_from_WTTRIN("Vietnam")
     #get_weather_from_WTTRIN("Malaysia")
     #pprint(get_weather_from_WTTRIN("Thailand"))
@@ -300,6 +296,8 @@ def main():
     #get_weather_from_WTTRIN("Japan")
     #get_weather_from_WTTRIN("South Korea")
     #get_weather_from_WTTRIN("Taiwan")
+    #get_weather_from_WTTRIN("Thailand")
+    #get_weather_from_WTTRIN("Philippines")
 
     #old_data_rubbish_collection()
 

@@ -29,7 +29,7 @@ def index(country):  # put application's code here
         # Server Config
         # Change IP to your server IP
         serverIP = "127.0.0.1"
-        serverPort = 12000
+        serverPort = 12001
 
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
         context.load_verify_locations('../backend/SSL/certificate.pem')

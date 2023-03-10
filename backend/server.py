@@ -17,7 +17,7 @@ def child(connectionSocket):
     connectionSocket.close()
 
 def tcpServer():
-    serverPort = 12000
+    serverPort = 12001
     # serverSocket = socket(AF_INET, SOCK_STREAM)
     # TCP with TLS
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
