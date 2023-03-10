@@ -22,11 +22,11 @@
                             Time: {{ hour.get("time") }}
                         {% endif %}
                         {# Weather Condition Icon #}
-                        {% if hour.get("weatherDesc")[0].get("value") == "Clear" or hour.get("weatherDesc")[0].get("value") == "Sunny" %}
+                        {% if hour.get("weatherDesc") == "Clear" or hour.get("weatherDesc") == "Sunny" %}
                             <img src="{{ url_for('static',filename='svg/clear_day.svg') }}">
-                        {% elif hour.get("weatherDesc")[0].get("value") == "Partly cloudy" or hour.get("weatherDesc")[0].get("value") == "Overcast" or hour.get("weatherDesc")[0].get("value") == "Fog" or hour.get("weatherDesc")[0].get("value") == "Mist" %}
+                        {% elif hour.get("weatherDesc") == "Partly cloudy"or hour.get("weatherDesc") == "Cloudy" or hour.get("weatherDesc") == "Overcast" or hour.get("weatherDesc") == "Fog" or hour.get("weatherDesc") == "Mist" %}
                             <img src="{{ url_for('static',filename='svg/cloudy.svg') }}">
-                        {% elif hour.get("weatherDesc")[0].get("value") == "Patchy rain possible" or hour.get("weatherDesc")[0].get("value") == "Light drizzle" %}
+                        {% elif hour.get("weatherDesc") == "Patchy rain possible" or hour.get("weatherDesc") == "Light drizzle" or hour.get("weatherDesc") == "Light rain shower" %}
                             <img src="{{ url_for('static',filename='svg/rainy.svg') }}">
                         {% endif %}
                         {# Temperature #}
@@ -36,7 +36,7 @@
             </div>
 
             {# Collapsed Card #}
-            <div id="collapse{{ hour.get("time") }}" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div id="collapse{{ hour.get('time') }}" class="collapse" role="tabpanel" aria-labelledby="headingOne">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-sm-6 floatLeft">Dew Point</div>

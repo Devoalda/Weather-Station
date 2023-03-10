@@ -10,10 +10,7 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='css/circle.css') }}">
-    <script src="{{url_for('static',filename='js/autocomplete.js')}}"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=***REMOVED***&libraries=places"></script>
-
-    <title>Dashboard</title>
+    <title>Search</title>
 </head>
 <body>
 
@@ -51,24 +48,12 @@
 <script>
     locationButton = document.getElementById("getLocBtn")
     locationButton.addEventListener("click", () => {
-        // Try HTML5 geolocation.
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const pos = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                    };
-                    document.getElementById('searchBar').value = pos.lat + "," + pos.lng;
-                },
-                () => {
-                    alert("API Failed");
-                }
-            );
-        } else {
-            // Browser doesn't support Geolocation
-            alert("API Failed");
-        }
+        fetch('https://ipinfo.io/json')
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                document.getElementById('searchBar').value = data['country'];
+            });
     });
 
 </script>

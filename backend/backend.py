@@ -37,16 +37,19 @@ def wttr_in_payload_generation(json_object):
     hourly_list = json_object["weather"][0]["hourly"]
     for item in hourly_list:
         hourly = {}
-        hourly["avgtemp"] = item["tempC"]
-        hourly["date"] = item["time"]
+        hourly["tempC"] = item["tempC"]
+        hourly["time"] = item["time"]
         hourly["chancerain"] = item["chanceofrain"]
         hourly["chancethunder"] = item["chanceofthunder"]
         hourly["chancewindy"] = item["chanceofwindy"]
         hourly["precipMM"] = item["precipMM"]
         hourly["humidity"] = item["humidity"]
+        hourly['DewPointC'] = item['DewPointC']
+        hourly['visibility'] = item['visibility']
+        hourly['cloudcover'] = item['cloudcover']
         hourly["weatherDesc"] = item["weatherDesc"][0]["value"]
-        hourly["winddir"] = item["winddir16Point"]
-        hourly["windspeedkmph"] = item["windspeedKmph"]
+        hourly["winddir16Point"] = item["winddir16Point"]
+        hourly["windspeedKmph"] = item["windspeedKmph"]
         payload_hourly_list.append(hourly)
 
     # Weather Dictionary
@@ -153,7 +156,7 @@ class Database():
     def __init__(self):
         self.client = pymongo.MongoClient("mongodb://localhost:27017/")
         self.mydb = self.client["WeatherDatabase"]
-        self.mycol = self.mydb["WeatherCollection"]  
+        self.mycol = self.mydb["WeatherCollection"]
 
     def insert_one(self, data):
         # Insert data into database
