@@ -291,13 +291,15 @@ def getAllWeatherDescriptions():
 
     weather_descriptions = []
     for key in weather_dict:
-        if weather_dict[key]["current_condition"].get("weatherDesc") not in weather_descriptions:
-            weather_descriptions.append(weather_dict[key]["current_condition"].get("weatherDesc"))
+        for item in weather_dict[key]["hourly"]:
+            if item["weatherDesc"] not in weather_descriptions:
+                weather_descriptions.append(item["weatherDesc"])
     return weather_descriptions
 
 def main():
+    pass
     #pprint(frontend_get_weather("singapore",""))
-    get_weather_from_WTTRIN("antartica")
+    #get_weather_from_WTTRIN("antartica")
     #cache_Singapore()
     #pprint(get_weather_from_WTTRIN("Singapore"))
     #get_weather_from_WTTRIN("amazon")
