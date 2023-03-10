@@ -28,7 +28,7 @@ def index(country):  # put application's code here
     def get_weather_from_Server(country):
         # Server Config
         # Change IP to your server IP
-        serverIP = "192.168.137.10"
+        serverIP = "192.168.137.100"
         serverPort = 12000
 
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
@@ -75,4 +75,4 @@ def index(country):  # put application's code here
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=5000)
+    app.run(host='0.0.0.0', port=5000)
