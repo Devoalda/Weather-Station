@@ -1,5 +1,5 @@
 import datetime
-from flask import Flask, render_template, request, url_for, flash, redirect
+from flask import Flask, render_template, request, url_for, redirect
 import json
 import requests
 from socket import *
@@ -10,14 +10,39 @@ import ssl
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '***REMOVED***'
 
+
 @app.route('/', methods=['GET', 'POST'])
 def search():
+    def get_weather_from_Server(country):
+        # Server Config
+        # Change IP to your server IP
+        serverIP = "127.0.0.2"
+        serverPort = 12000
+
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+        context.load_verify_locations('../backend/SSL/certificate.pem')
+        context.check_hostname = False
+
+        clientSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_hostname=serverIP)
+        clientSocket.connect((serverIP, serverPort))
+
+        clientSocket.send(country.encode())
+        buffer = 20480
+        data = clientSocket.recv(buffer).decode()
+        if data == "Error":
+            payload = None
+        else:
+            payload = json.JSONDecoder().decode(data)
+        clientSocket.close()
+        # print(payload)
+        return payload
+
     if request.method == 'POST':
         location = request.form['location']
-        if not location:
-            flash('Please enter a valid location')
-        if location:
-            flash('This is the entered ' + location)
+        resp = get_weather_from_Server(location)
+        if resp is None:
+            return redirect('404')
+        if resp:
             return redirect('location/' + location)
 
     return render_template('search.html')
@@ -29,7 +54,7 @@ def index(country):  # put application's code here
         # Server Config
         # Change IP to your server IP
         serverIP = "127.0.0.2"
-        serverPort = 12001
+        serverPort = 12000
 
         context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
         context.load_verify_locations('../backend/SSL/certificate.pem')
@@ -40,7 +65,11 @@ def index(country):  # put application's code here
 
         clientSocket.send(country.encode())
         buffer = 20480
-        payload = json.JSONDecoder().decode(clientSocket.recv(buffer).decode())
+        data = clientSocket.recv(buffer).decode()
+        if data == "Error":
+            payload = None
+        else:
+            payload = json.JSONDecoder().decode(data)
         clientSocket.close()
         # print(payload)
         return payload
@@ -49,7 +78,7 @@ def index(country):  # put application's code here
 
     def countryRegionDetails(data):
         res = list(apiData.keys())[0].split(",")
-        newList = [res[0].lstrip(),res[1].lstrip()]
+        newList = [res[0].lstrip(), res[1].lstrip()]
         return newList
 
     def getCurrentCondition(apiData):
@@ -75,12 +104,22 @@ def index(country):  # put application's code here
         now = datetime.date.today()
         return now
 
-    return render_template("index.html", date=getDate(), humidity=getHumidity(apiData), countryRegion = countryRegionDetails(apiData),
+    weatherType = {
+        "Sunny": [""]
+    }
+
+    return render_template("index.html", date=getDate(), humidity=getHumidity(apiData),
+                           countryRegion=countryRegionDetails(apiData),
                            hourlyData=getHourData(apiData), currentCondition=getCurrentCondition(apiData))
+
+@app.route('/404')
+def error404():
+    return render_template('404.html'), 404
 
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

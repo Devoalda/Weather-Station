@@ -7,7 +7,8 @@
                 <div class="row">
                     <div class="col">
                         <h4 class="currentWeatherText padTop">Date: {{ date }}</h4>
-                        <h4 class="currentWeatherText" class="currentTemp">Temperature: {{ currentCondition.get('temp_C') }}&#8451</h4>
+                        <h4 class="currentWeatherText" class="currentTemp">Temperature: {{
+                            currentCondition.get('temp_C') }}&#8451</h4>
                         <h4 class="currentWeatherText">Wind Speed: {{ currentCondition.get('windspeed') }}</h4>
                         <h4 class="currentWeatherText">Wind Direction: {{ currentCondition.get('winddir') }}</h4>
                     </div>
@@ -17,20 +18,20 @@
                 {% if currentCondition.get('weatherDesc') == "Clear" or currentCondition.get('weatherDesc') == "Sunny"
                 %}
                 <img class="currentWeather" src="{{ url_for('static',filename='svg/clear_day.svg') }}">
-                <div class="text-center">{{currentCondition.get('weatherDesc')}}</div>
-                {% elif currentCondition.get('weatherDesc') == "Partly cloudy" or currentCondition.get('weatherDesc') ==
-                "Overcast" or currentCondition.get('weatherDesc') == "Fog" or currentCondition.get('temp_C') == "Mist"
-                %}
+                {% elif hour.get("weatherDesc") == "Partly cloudy"or hour.get("weatherDesc") == "Cloudy" or
+                hour.get("weatherDesc") == "Overcast" or hour.get("weatherDesc") == "Freezing fog" or
+                hour.get("weatherDesc") == "Mist" or hour.get("weatherDesc") == "Mist" %}
                 <img class="currentWeather" src="{{ url_for('static',filename='svg/cloudy.svg') }}">
-                <div class="text-center">{{currentCondition.get('weatherDesc')}}</div> {% elif
-                currentCondition.get('weatherDesc') == "Patchy rain possible" or
+                {% elif currentCondition.get('weatherDesc') == "Patchy rain possible" or
                 currentCondition.get('weatherDesc') == "Light drizzle" %}
                 <img class="currentWeather" src="{{ url_for('static',filename='svg/rainy.svg') }}">
+                {% elif hour.get("weatherDesc") == "Patchy light snow" or hour.get("weatherDesc") == "Blizzard" %}
+                <img class="currentWeather" src="{{ url_for('static',filename='svg/snowy.svg') }}">
                 <div class="text-center">{{currentCondition.get('weatherDesc')}}</d> {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                <!--            The relative humidity reading is the amount of water vapor the air holds at any given time.-->
             </div>
         </div>
-        <div class="card-body">
-            <!--            The relative humidity reading is the amount of water vapor the air holds at any given time.-->
-        </div>
     </div>
-</div>

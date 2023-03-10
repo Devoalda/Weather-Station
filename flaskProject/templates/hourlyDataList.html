@@ -24,10 +24,12 @@
                         {# Weather Condition Icon #}
                         {% if hour.get("weatherDesc") == "Clear" or hour.get("weatherDesc") == "Sunny" %}
                             <img src="{{ url_for('static',filename='svg/clear_day.svg') }}">
-                        {% elif hour.get("weatherDesc") == "Partly cloudy"or hour.get("weatherDesc") == "Cloudy" or hour.get("weatherDesc") == "Overcast" or hour.get("weatherDesc") == "Fog" or hour.get("weatherDesc") == "Mist" %}
+                        {% elif hour.get("weatherDesc") == "Partly cloudy"or hour.get("weatherDesc") == "Cloudy" or hour.get("weatherDesc") == "Overcast" or hour.get("weatherDesc") == "Freezing fog" or hour.get("weatherDesc") == "Mist" or hour.get("weatherDesc") == "Mist" %}
                             <img src="{{ url_for('static',filename='svg/cloudy.svg') }}">
-                        {% elif hour.get("weatherDesc") == "Patchy rain possible" or hour.get("weatherDesc") == "Light drizzle" or hour.get("weatherDesc") == "Light rain shower" %}
+                        {% elif hour.get("weatherDesc") == "Patchy rain possible" or hour.get("weatherDesc") == "Light drizzle" or hour.get("weatherDesc") == "Light rain shower" or hour.get("weatherDesc") == "Moderate or heavy rain shower"%}
                             <img src="{{ url_for('static',filename='svg/rainy.svg') }}">
+                                                {% elif hour.get("weatherDesc") == "Patchy light snow" or hour.get("weatherDesc") == "Blizzard" %}
+                            <img src="{{ url_for('static',filename='svg/snowy.svg') }}">
                         {% endif %}
                         {# Temperature #}
                         {{ hour.get("tempC") }}&#8451
