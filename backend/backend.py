@@ -69,7 +69,10 @@ def get_weather_from_WTTRIN(Country):
     # Change all spaces to + and capitalize all first letters
     country = Country.replace(" ", "+").title()
     site = "https://wttr.in/" + country + "?format=j1"
-    weather_json = requests.get(site).json()
+    weather_req = requests.get(site)
+    if b'Unknown location;' in weather_req.content:
+        return None
+    weather_json = weather_req.json()
     payload = wttr_in_payload_generation(weather_json)  # This payload will be saved to database
     #pprint(payload)
 
@@ -281,13 +284,33 @@ def printKeys(json_object):
     for key in json_object:
         print(key)
 
+def getAllWeatherDescriptions():
+    with open("payload_DB.json", "r") as outfile:
+        weather_dict = json.load(outfile)
+        outfile.close()
+
+    weather_descriptions = []
+    for key in weather_dict:
+        if weather_dict[key]["current_condition"].get("weatherDesc") not in weather_descriptions:
+            weather_descriptions.append(weather_dict[key]["current_condition"].get("weatherDesc"))
+    return weather_descriptions
 
 def main():
     #pprint(frontend_get_weather("singapore",""))
-    pass
+    get_weather_from_WTTRIN("antartica")
     #cache_Singapore()
-    pprint(get_weather_from_WTTRIN("Singapore"))
-    #get_weather_from_WTTRIN("Vietnam")
+    #pprint(get_weather_from_WTTRIN("Singapore"))
+    #get_weather_from_WTTRIN("amazon")
+    #get_weather_from_WTTRIN("africa")
+    #get_weather_from_WTTRIN("australia")
+    #get_weather_from_WTTRIN("brazil")
+    #get_weather_from_WTTRIN("canada")
+    # other countries with various weather conditions
+    #get_weather_from_WTTRIN("france")
+    #get_weather_from_WTTRIN("germany")
+    #get_weather_from_WTTRIN("greece")
+    #get_weather_from_WTTRIN("india")
+
     #get_weather_from_WTTRIN("Malaysia")
     #pprint(get_weather_from_WTTRIN("Thailand"))
     #get_weather_from_WTTRIN("Indonesia")
@@ -303,6 +326,8 @@ def main():
 
     # pprint(frontend_get_weather("Singapore", "Singapore", "2020-05-10"))
     #tcpServer()
+
+    #print(getAllWeatherDescriptions())
 
 
 
