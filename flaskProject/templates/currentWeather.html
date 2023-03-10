@@ -18,14 +18,14 @@
                 {% if currentCondition.get('weatherDesc') == "Clear" or currentCondition.get('weatherDesc') == "Sunny"
                 %}
                 <img class="currentWeather" src="{{ url_for('static',filename='svg/clear_day.svg') }}">
-                {% elif hour.get("weatherDesc") == "Partly cloudy"or hour.get("weatherDesc") == "Cloudy" or
-                hour.get("weatherDesc") == "Overcast" or hour.get("weatherDesc") == "Freezing fog" or
-                hour.get("weatherDesc") == "Mist" or hour.get("weatherDesc") == "Mist" %}
+                {% elif currentCondition.get("weatherDesc") == "Partly cloudy"or currentCondition.get("weatherDesc") == "Cloudy" or
+                currentCondition.get("weatherDesc") == "Overcast" or currentCondition.get("weatherDesc") == "Freezing fog" or
+                currentCondition.get("weatherDesc") == "Mist" or currentCondition.get("weatherDesc") == "Mist" %}
                 <img class="currentWeather" src="{{ url_for('static',filename='svg/cloudy.svg') }}">
                 {% elif currentCondition.get('weatherDesc') == "Patchy rain possible" or
                 currentCondition.get('weatherDesc') == "Light drizzle" %}
                 <img class="currentWeather" src="{{ url_for('static',filename='svg/rainy.svg') }}">
-                {% elif hour.get("weatherDesc") == "Patchy light snow" or hour.get("weatherDesc") == "Blizzard" %}
+                {% elif currentCondition.get("weatherDesc") == "Patchy light snow" or currentCondition.get("weatherDesc") == "Blizzard" %}
                 <img class="currentWeather" src="{{ url_for('static',filename='svg/snowy.svg') }}">
                 <div class="text-center">{{currentCondition.get('weatherDesc')}}</d> {% endif %}
                 </div>

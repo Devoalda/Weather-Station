@@ -12,10 +12,10 @@
                     <div class="card" style="width: 600px">
                         <div class="card-body">
                             <h2 class="card-title text-center">
-                                {% if countryRegion[0] == countryRegion[1] or countryRegion[1]==" " %}
-                                Country: {{ countryRegion[0] }}
+                                {% if countryRegion[1] == location %}
+                                {{ countryRegion[0] }}, Region: {{ countryRegion[1] }}
                                 {% else %}
-                                Country: {{ countryRegion[0] }}, Region: {{ countryRegion[1] }}
+                                Country: {{ countryRegion[0] }}
                                 {% endif %}
                             </h2>
                         </div>

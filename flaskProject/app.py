@@ -40,6 +40,7 @@ def search():
     if request.method == 'POST':
         location = request.form['location']
         resp = get_weather_from_Server(location)
+        print(resp)
         if resp is None:
             return redirect('404')
         if resp:
@@ -104,13 +105,15 @@ def index(country):  # put application's code here
         now = datetime.date.today()
         return now
 
+    location = country.capitalize()
+
     weatherType = {
         "Sunny": [""]
     }
-
+    print(country)
     return render_template("index.html", date=getDate(), humidity=getHumidity(apiData),
                            countryRegion=countryRegionDetails(apiData),
-                           hourlyData=getHourData(apiData), currentCondition=getCurrentCondition(apiData))
+                           hourlyData=getHourData(apiData), currentCondition=getCurrentCondition(apiData), location=location)
 
 @app.route('/404')
 def error404():
