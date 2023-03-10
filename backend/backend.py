@@ -37,15 +37,18 @@ def wttr_in_payload_generation(json_object):
     hourly_list = json_object["weather"][0]["hourly"]
     for item in hourly_list:
         hourly = {}
-        hourly["avgtemp"] = item["tempC"]
-        hourly["date"] = item["time"]
+        hourly["temp_C"] = item["tempC"]
+        hourly["time"] = item["time"]
         hourly["chancerain"] = item["chanceofrain"]
         hourly["chancethunder"] = item["chanceofthunder"]
         hourly["chancewindy"] = item["chanceofwindy"]
+        hourly["DewPointC"] = item["DewPointC"]
+        hourly["visibility"] = item["visibility"]
+        hourly["cloudcover"] = item["cloudcover"]
         hourly["precipMM"] = item["precipMM"]
         hourly["humidity"] = item["humidity"]
         hourly["weatherDesc"] = item["weatherDesc"][0]["value"]
-        hourly["winddir"] = item["winddir16Point"]
+        hourly["winddir16Point"] = item["winddir16Point"]
         hourly["windspeedkmph"] = item["windspeedKmph"]
         payload_hourly_list.append(hourly)
 
@@ -186,14 +189,38 @@ class Database():
 #get_weather_from_database(key)
 
 
-def frontend_get_weather(country, areaName, date):  # This function will be called by frontend
+def frontend_get_weather(country, areaName):  # This function will be called by frontend
+
+    country = country.title()
+    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    print(date)
+    if areaName == "":
+        areaName = country.title()
     # Get weather from database
     # If not found, get weather from WTTRIN
-    weather_payload = get_weather_from_WTTRIN(country)
+    weather_payload = get_weather_from_file(country, areaName, date)
+    if weather_payload is None:
+        print("here")
+        weather_payload = get_weather_from_WTTRIN(country)
     # Save to database
 
     return weather_payload
 
+def get_weather_from_file(country, areaName, date):
+    return_payload = {}
+
+    # Get weather from database
+    key = country + ", " + areaName + ", " + date
+    with open("payload_DB.json", "r") as outfile:
+        payload_dict = json.load(outfile)
+        outfile.close()
+
+    try:
+        return_payload = payload_dict[key]
+    except KeyError:
+        return_payload = None
+
+    return return_payload
 
 def old_data_rubbish_collection():
     # Get date 7 days ago (Can be changed to later date)
@@ -229,18 +256,19 @@ def printKeys(json_object):
 
 
 def main():
+    #print(frontend_get_weather("Singapore",""))
     pass
     #cache_Singapore()
-    get_weather_from_WTTRIN("Singapore")
-    get_weather_from_WTTRIN("Vietnam")
-    get_weather_from_WTTRIN("Malaysia")
-    get_weather_from_WTTRIN("Thailand")
-    get_weather_from_WTTRIN("Indonesia")
-    get_weather_from_WTTRIN("India")
-    get_weather_from_WTTRIN("China")
-    get_weather_from_WTTRIN("Japan")
-    get_weather_from_WTTRIN("South Korea")
-    get_weather_from_WTTRIN("Taiwan")
+    #get_weather_from_WTTRIN("Singapore")
+    #get_weather_from_WTTRIN("Vietnam")
+    #get_weather_from_WTTRIN("Malaysia")
+    #pprint(get_weather_from_WTTRIN("Thailand"))
+    #get_weather_from_WTTRIN("Indonesia")
+    #get_weather_from_WTTRIN("India")
+    #get_weather_from_WTTRIN("China")
+    #get_weather_from_WTTRIN("Japan")
+    #get_weather_from_WTTRIN("South Korea")
+    #get_weather_from_WTTRIN("Taiwan")
 
     #old_data_rubbish_collection()
 

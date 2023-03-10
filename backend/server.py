@@ -11,7 +11,7 @@ privatekey = "./SSL/privatekey.pem"
 def child(connectionSocket):
     country = connectionSocket.recv(1024).decode()
     print("Received: " + country)
-    weather_payload = backend.frontend_get_weather(country, "", "")
+    weather_payload = backend.frontend_get_weather(country, "")
     connectionSocket.send(json.dumps(weather_payload).encode())
     connectionSocket.close()
 
@@ -34,6 +34,9 @@ def tcpServer():
             print('Connected to :', addr[0], ':', addr[1])
             t = Thread(target=child, args=(connectionSocket,))
             t.start()
+    except KeyboardInterrupt:
+        print("Keyboard Interrupt, closing server...")
+        serverSocket.close()
     except Exception as e:
         print(e)
         serverSocket.close()

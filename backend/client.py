@@ -18,13 +18,13 @@ def get_weather_from_Server(country):
     clientSocket.connect((serverIP, serverPort))
 
     clientSocket.send(country.encode())
-    buffer = 2048
+    buffer = 10240
     payload = json.JSONDecoder().decode(clientSocket.recv(buffer).decode())
     clientSocket.close()
     return payload
 
 def main():
-    pprint(get_weather_from_Server("Vietnam"))
+    pprint(get_weather_from_Server("japan"))
 
 
 if __name__ == '__main__':
