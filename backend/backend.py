@@ -10,6 +10,7 @@ from threading import Thread
 from pprint import pprint
 from datetime import date
 import pymongo
+import database
 
 def wttr_in_payload_generation(json_object):
     payload = {}
@@ -86,7 +87,10 @@ def get_weather_from_WTTRIN(Country):
     # Save payload to database
     # Only payload will be saved to database
     # ADD TRY EXCEPT STATEMENTS
-    #save_weather_to_database(payload)
+    try:
+        save_weather_to_database(payload)
+    except:
+        print("Error: Could not save to database")
 
     return payload
 
@@ -152,8 +156,12 @@ def save_weather_to_file(json_object): # May not be required but just in case cu
 def save_weather_to_database(payload):
     # open the json file that has been saved
 
-    d = Database()
-    
+    try:
+        d = database.Database()
+    except:
+        print("Database connection failed")
+        return
+
     if d.print_all_data() is None:
         d.insert_one(payload)
         print("Payload inserted")
@@ -169,57 +177,6 @@ def save_weather_to_database(payload):
         else:
             d.insert_one(payload)
             print("Weather forecase for country does not exist, inserting payload now")
-
-
-class Database():
-    def __init__(self):
-        self.client = pymongo.MongoClient("mongodb://localhost:27017/")
-        self.mydb = self.client["WeatherDatabase"]
-        self.mycol = self.mydb["WeatherCollection"]  
-
-    def insert_one(self, data):
-        # Insert data into database
-        x = self.mycol.insert_one(data)
-
-    def insert_many(self, data):
-        # insert many into database
-        x = self.mycol.insert_many(data)
-
-    def delete_many(self):
-        # Delete all data in database
-        x = self.mycol.delete_many({})
-
-    def print_all_data(self):
-        # Print all data in database
-        for y in self.mycol.find():
-            return y
-            #print(y)
-
-    def get_weather_from_database(self, payload):
-        for i in self.mycol.find():
-            res = list(i.keys())[1]
-            check = list(payload.keys())[0]
-            if check == res:
-                return res
-            
-    def update(self, payload):
-        for i in self.mycol.find():
-            res = list(i.keys())[1]
-            check = list(payload.keys())[0]
-            if check == res:
-                print(payload)
-
-    #def update_country(self, key):
-    #    x = self.mycol.update_one({key()}, {"$set": new_val})
-
-#today = date.today()
-#country = "Singapore, "
-#city = "Singapore, "
-#date = "2023-03-07"
-#key = country + city + date
-#get_weather_from_database(key)
-
-
 
 def frontend_get_weather(country, areaName):  # This function will be called by frontend
 
