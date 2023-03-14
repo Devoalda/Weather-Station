@@ -6,11 +6,12 @@ import json
 import datetime
 import time, threading
 from socket import *
-from threading import Thread
+from threading import Thread, Timer
 from pprint import pprint
 from datetime import date
 import pymongo
 import database
+from time import sleep
 
 def wttr_in_payload_generation(json_object):
     payload = {}
@@ -86,8 +87,13 @@ def get_weather_from_WTTRIN(Country):
 
     # Save payload to database
     # Only payload will be saved to database
+
+    # run function with timeout of 5 secs
     try:
-        save_weather_to_database(payload) # TODO: ADD A TIMEOUT
+        # create a thread timer object
+        #save_weather_to_database(payload)
+        t = threading.Timer(15.0, save_weather_to_database, [payload])
+        t.start()
     except:
         print("Error: Could not save to database")
 
@@ -151,12 +157,12 @@ def save_weather_to_file(json_object): # May not be required but just in case cu
         json.dump(weather_list, outfile, indent=4)
         outfile.close()
 
-
 def save_weather_to_database(payload):
     # open the json file that has been saved
 
     try:
         d = database.Database()
+        print("Connected to database successfully")
     except:
         print("Database connection failed")
         return
@@ -170,17 +176,22 @@ def save_weather_to_database(payload):
     else:
         exist = d.get_weather_from_database(payload)
         check = list(payload.keys())[0]
-        if check in exist:
-            d.update(payload)
-            print("Need to update")
-        else:
+        if exist is None:
             d.insert_one(payload)
-            print("Weather forecase for country does not exist, inserting payload now")
+            print("Weather forecast for country does not exist, inserting payload now")
+            print(payload)
+        else:
+            print("Weather forecast for country already exists, here it is")
+            print(payload)
 
-def get_weather_from_database(country, areaName,date): #TODO: COMPLETE THIS FUNCTION
+def get_weather_from_database(payload):
     # Return payload if found in database
     # return None instead
-    return None
+    d = database.Database()
+    if d.get_weather_from_database(payload) is not None:
+        return payload
+    else:
+        return None
 
 def frontend_get_weather(country, areaName):  # This function will be called by frontend
 
