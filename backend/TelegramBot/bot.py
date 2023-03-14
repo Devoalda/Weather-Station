@@ -1,3 +1,5 @@
+# pip install pyTelegramBotAPI
+
 import telebot
 import json
 from socket import *
@@ -5,7 +7,7 @@ import ssl
 import time
 import sys
 import threading
-import backend as backend
+#import backend as backend
 
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = 12000
@@ -80,7 +82,7 @@ def get_weather(country):
 
 
 def SG_channel_Update():
-    payload = get_weather_from_Server("Singapore")
+    payload = get_weather_from_Server("Korea")
     if payload is None:
         return None
     else:
