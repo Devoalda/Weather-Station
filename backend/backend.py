@@ -86,9 +86,8 @@ def get_weather_from_WTTRIN(Country):
 
     # Save payload to database
     # Only payload will be saved to database
-    # ADD TRY EXCEPT STATEMENTS
     try:
-        save_weather_to_database(payload)
+        save_weather_to_database(payload) # TODO: ADD A TIMEOUT
     except:
         print("Error: Could not save to database")
 
@@ -178,6 +177,11 @@ def save_weather_to_database(payload):
             d.insert_one(payload)
             print("Weather forecase for country does not exist, inserting payload now")
 
+def get_weather_from_database(country, areaName,date): #TODO: COMPLETE THIS FUNCTION
+    # Return payload if found in database
+    # return None instead
+    return None
+
 def frontend_get_weather(country, areaName):  # This function will be called by frontend
 
     country = country.title()
@@ -186,13 +190,15 @@ def frontend_get_weather(country, areaName):  # This function will be called by 
     if areaName == "":
         areaName = country.title()
     # Get weather from database
-    # If not found, get weather from WTTRIN
-    weather_payload = get_weather_from_file(country, areaName, date)
-    #print(weather_payload)
+    weather_payload = get_weather_from_database(country, areaName, date)
     if weather_payload is None:
-        weather_payload = get_weather_from_WTTRIN(country)
-    # Save to database
-    #print(weather_payload)
+        # If not found, get weather from WTTRIN
+        weather_payload = get_weather_from_file(country, areaName, date)
+        print("Weather from file")
+        if weather_payload is None:
+            weather_payload = get_weather_from_WTTRIN(country)
+            print("Weather from WTTRIN")
+            return weather_payload
     return weather_payload
 
 def get_weather_from_file(country, areaName, date):
