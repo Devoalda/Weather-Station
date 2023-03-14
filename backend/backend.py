@@ -13,6 +13,7 @@ import pymongo
 import database
 from time import sleep
 
+
 def wttr_in_payload_generation(json_object):
     payload = {}
     current_condition = {}
@@ -60,7 +61,8 @@ def wttr_in_payload_generation(json_object):
 
     # Payload Dictionary
     # Key will be Country, areaName, Date
-    key = (json_object["nearest_area"][0]["country"][0]["value"] + ", " + str(region) + ", " + json_object["weather"][0]["date"])
+    key = (json_object["nearest_area"][0]["country"][0]["value"] + ", " + str(region) + ", " +
+           json_object["weather"][0]["date"])
 
     payload[key] = {"current_condition": current_condition, "hourly": payload_hourly_list, "weather": weather}
 
@@ -76,7 +78,7 @@ def get_weather_from_WTTRIN(Country):
         return None
     weather_json = weather_req.json()
     payload = wttr_in_payload_generation(weather_json)  # This payload will be saved to database
-    #pprint(payload)
+    # pprint(payload)
 
     # Save to file
     # All weather data will be saved to a file
@@ -91,13 +93,14 @@ def get_weather_from_WTTRIN(Country):
     # run function with timeout of 5 secs
     try:
         # create a thread timer object
-        #save_weather_to_database(payload)
+        # save_weather_to_database(payload)
         t = threading.Timer(15.0, save_weather_to_database, [payload])
         t.start()
     except:
         print("Error: Could not save to database")
 
     return payload
+
 
 def save_payload_to_file(json_object):
     payload = {}
@@ -130,7 +133,8 @@ def save_payload_to_file(json_object):
         json.dump(payload, outfile, indent=4)
         outfile.close()
 
-def save_weather_to_file(json_object): # May not be required but just in case cuz there's duplicates
+
+def save_weather_to_file(json_object):  # May not be required but just in case cuz there's duplicates
     weather_list = []
     file = "weather.json"
 
@@ -156,6 +160,7 @@ def save_weather_to_file(json_object): # May not be required but just in case cu
     with open("weather.json", "w") as outfile:
         json.dump(weather_list, outfile, indent=4)
         outfile.close()
+
 
 def save_weather_to_database(payload):
     # open the json file that has been saved
@@ -184,6 +189,7 @@ def save_weather_to_database(payload):
             print("Weather forecast for country already exists, here it is")
             print(payload)
 
+
 def get_weather_from_database(payload):
     # Return payload if found in database
     # return None instead
@@ -193,17 +199,20 @@ def get_weather_from_database(payload):
     else:
         return None
 
+
 def frontend_get_weather(country, areaName):  # This function will be called by frontend
 
     country = country.title()
     date = datetime.datetime.now().strftime("%Y-%m-%d")
-    #print(date)
+    # print(date)
     if areaName == "":
         areaName = country.title()
     # Get weather from database
-    weather_payload = get_weather_from_database(country, areaName, date)
+    weather_payload = None
+    # weather_payload = get_weather_from_database(country, areaName, date)
     if weather_payload is None:
         # If not found, get weather from WTTRIN
+        # This is just a backup in case the database is empty
         weather_payload = get_weather_from_file(country, areaName, date)
         print("Weather from file")
         if weather_payload is None:
@@ -226,6 +235,7 @@ def get_weather_from_file(country, areaName, date):
 
     return ret_payload
 
+
 def old_data_rubbish_collection():
     # Get date 7 days ago (Can be changed to later date)
     date_to_delete = datetime.datetime.now().date() - datetime.timedelta(days=7)
@@ -243,6 +253,8 @@ def old_data_rubbish_collection():
     with open("weather.json", "w") as outfile:
         json.dump(weather_list, outfile)
         outfile.close()
+
+
 def get_latest_weather_from_file():
     file = "weather.json"
     weather_list = []
@@ -258,6 +270,7 @@ def printKeys(json_object):
     for key in json_object:
         print(key)
 
+
 def getAllWeatherDescriptions():
     with open("payload_DB.json", "r") as outfile:
         weather_dict = json.load(outfile)
@@ -270,41 +283,41 @@ def getAllWeatherDescriptions():
                 weather_descriptions.append(item["weatherDesc"])
     return weather_descriptions
 
+
 def main():
     pass
-    #pprint(frontend_get_weather("singapore",""))
-    #get_weather_from_WTTRIN("antartica")
-    #cache_Singapore()
-    #pprint(get_weather_from_WTTRIN("Singapore"))
-    #get_weather_from_WTTRIN("amazon")
-    #get_weather_from_WTTRIN("africa")
-    #get_weather_from_WTTRIN("australia")
-    #get_weather_from_WTTRIN("brazil")
-    #get_weather_from_WTTRIN("canada")
+    # pprint(frontend_get_weather("singapore",""))
+    # get_weather_from_WTTRIN("antartica")
+    # cache_Singapore()
+    # pprint(get_weather_from_WTTRIN("Singapore"))
+    # get_weather_from_WTTRIN("amazon")
+    # get_weather_from_WTTRIN("africa")
+    # get_weather_from_WTTRIN("australia")
+    # get_weather_from_WTTRIN("brazil")
+    # get_weather_from_WTTRIN("canada")
     # other countries with various weather conditions
-    #get_weather_from_WTTRIN("france")
-    #get_weather_from_WTTRIN("germany")
-    #get_weather_from_WTTRIN("greece")
-    #get_weather_from_WTTRIN("india")
+    # get_weather_from_WTTRIN("france")
+    # get_weather_from_WTTRIN("germany")
+    # get_weather_from_WTTRIN("greece")
+    # get_weather_from_WTTRIN("india")
 
-    #get_weather_from_WTTRIN("Malaysia")
-    #pprint(get_weather_from_WTTRIN("Thailand"))
-    #get_weather_from_WTTRIN("Indonesia")
-    #get_weather_from_WTTRIN("India")
-    #get_weather_from_WTTRIN("China")
-    #get_weather_from_WTTRIN("Japan")
-    #get_weather_from_WTTRIN("South Korea")
-    #get_weather_from_WTTRIN("Taiwan")
-    #get_weather_from_WTTRIN("Thailand")
-    #get_weather_from_WTTRIN("Philippines")
+    # get_weather_from_WTTRIN("Malaysia")
+    # pprint(get_weather_from_WTTRIN("Thailand"))
+    # get_weather_from_WTTRIN("Indonesia")
+    # get_weather_from_WTTRIN("India")
+    # get_weather_from_WTTRIN("China")
+    # get_weather_from_WTTRIN("Japan")
+    # get_weather_from_WTTRIN("South Korea")
+    # get_weather_from_WTTRIN("Taiwan")
+    # get_weather_from_WTTRIN("Thailand")
+    # get_weather_from_WTTRIN("Philippines")
 
-    #old_data_rubbish_collection()
+    # old_data_rubbish_collection()
 
     # pprint(frontend_get_weather("Singapore", "Singapore", "2020-05-10"))
-    #tcpServer()
+    # tcpServer()
 
-    #print(getAllWeatherDescriptions())
-
+    # print(getAllWeatherDescriptions())
 
 
 if __name__ == '__main__':
