@@ -90,13 +90,9 @@ def get_weather_from_WTTRIN(Country):
     # Only payload will be saved to database
 
     # run function with timeout of 5 secs
-    try:
         # create a thread timer object
         # save_weather_to_database(payload)
-        t = threading.Timer(15.0, save_weather_to_database, [payload])
-        t.start()
-    except:
-        print("Error: Could not save to database")
+    t = threading.Timer(15.0, save_weather_to_database, [payload]).start()
 
     return payload
 
@@ -218,13 +214,17 @@ def frontend_get_weather(country, areaName):  # This function will be called by 
         areaName = country.title()
     # Get weather from database
     weather_payload = None
-    weather_payload = get_weather_from_database(country, areaName, date)
+    #weather_payload = get_weather_from_database(country, areaName, date)
+    print("Weather from database", weather_payload)
     if weather_payload is None:
         # If not found, get weather from WTTRIN
         # This is just a backup in case the database is empty
         weather_payload = get_weather_from_file(country, areaName, date)
-        print("Weather from file")
-        if weather_payload is None:
+        #print("Weather from file", weather_payload)
+        if weather_payload is not None:
+            print("Weather from file")
+            return weather_payload
+        else:
             weather_payload = get_weather_from_WTTRIN(country)
             print("Weather from WTTRIN")
             return weather_payload
@@ -239,6 +239,7 @@ def get_weather_from_file(country, areaName, date):
         outfile.close()
     try:
         ret_payload[key] = payload_dict[key]
+        print("Weather ", ret_payload)
     except KeyError:
         ret_payload = None
 
@@ -300,7 +301,7 @@ def main():
     # cache_Singapore()
     # pprint(get_weather_from_WTTRIN("Singapore"))
     # get_weather_from_WTTRIN("amazon")
-    # get_weather_from_WTTRIN("africa")
+    print(frontend_get_weather("singapore", ""))
     # get_weather_from_WTTRIN("australia")
     # get_weather_from_WTTRIN("brazil")
     # get_weather_from_WTTRIN("canada")
