@@ -1,3 +1,7 @@
+/*#page{*/
+/*    display: none;*/
+/*}*/
+
 body {
     background: lightgrey;
 }
@@ -19,23 +23,24 @@ hr {
 
 .wallpaper {
     opacity: 0.6;
-    display: block;
+    background-repeat: no-repeat;
     margin-left: auto;
     margin-right: auto;
-    width: 100%;
-    height: auto;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 100px;
     background-size: cover;
     z-index: 0;
+    background-image: url("../images/beach.jpg");
 }
 
 .searchBar {
-    position: absolute;
-    left: 35%;
+    position: relative;
+    /*left: 35%;*/
     margin-left: auto;
     margin-right: auto;
-    top: 40%;
+    padding-top: 10%;
     z-index: 1;
-    width: 30%;
 }
 
 .rowSpace {
@@ -78,10 +83,45 @@ hr {
     display: block;
 }
 
-.currentWeatherText{
+.currentWeatherText {
     padding-left: 40px;
 }
 
 .padTop {
     padding-top: 30px;
+}
+
+/* Loading */
+#loading{
+    width: 100%;
+    height:100vh;
+    background-color: #428BCA;
+}
+
+.loading_container{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+#spin {
+border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#loading h1{
+    color: #FFF;
+    margin-left:10px;
 }
