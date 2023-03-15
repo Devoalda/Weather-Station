@@ -218,7 +218,7 @@ def frontend_get_weather(country, areaName):  # This function will be called by 
         areaName = country.title()
     # Get weather from database
     weather_payload = None
-    # weather_payload = get_weather_from_database(country, areaName, date)
+    weather_payload = get_weather_from_database(country, areaName, date)
     if weather_payload is None:
         # If not found, get weather from WTTRIN
         # This is just a backup in case the database is empty
