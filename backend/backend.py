@@ -61,8 +61,7 @@ def wttr_in_payload_generation(json_object):
 
     # Payload Dictionary
     # Key will be Country, areaName, Date
-    key = (json_object["nearest_area"][0]["country"][0]["value"] + ", " + str(region) + ", " +
-           json_object["weather"][0]["date"])
+    key = (json_object["nearest_area"][0]["country"][0]["value"] + ", " + str(region) + ", " + json_object["weather"][0]["date"])
 
     payload[key] = {"current_condition": current_condition, "hourly": payload_hourly_list, "weather": weather}
 
@@ -165,6 +164,13 @@ def save_weather_to_file(json_object):  # May not be required but just in case c
 def save_weather_to_database(payload):
     # open the json file that has been saved
 
+    keys = list(payload.keys())[0].split(", ")
+    country = keys[0]
+    areaName = keys[1]
+    date = keys[2]
+
+    country_name_date = country + ", " + areaName + ", " + date
+
     try:
         d = database.Database()
         print("Connected to database successfully")
@@ -179,8 +185,8 @@ def save_weather_to_database(payload):
         check = list(payload.keys())[0]
         print(check)
     else:
-        exist = d.get_weather_from_database(payload)
-        check = list(payload.keys())[0]
+        exist = get_weather_from_database(country, areaName, date)
+        #check = list(payload.keys())[0]
         if exist is None:
             d.insert_one(payload)
             print("Weather forecast for country does not exist, inserting payload now")
@@ -190,12 +196,15 @@ def save_weather_to_database(payload):
             print(payload)
 
 
-def get_weather_from_database(payload):
+def get_weather_from_database(country, areaName, date):
     # Return payload if found in database
     # return None instead
+    # Return payload if found in database
+    key = country + ", " + areaName + ", " + date
+    # return None instead
     d = database.Database()
-    if d.get_weather_from_database(payload) is not None:
-        return payload
+    if d.get_weather_from_database(key) is not None:
+        return d.get_weather_from_database(key)
     else:
         return None
 

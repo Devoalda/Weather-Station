@@ -27,12 +27,16 @@ class Database():
             return y
             #print(y)
 
-    def get_weather_from_database(self, payload):
+    def get_weather_from_database(self, key):
+        # Get weather from database
+        return_dict = {}
         for i in self.mycol.find():
             res = list(i.keys())[1]
-            check = list(payload.keys())[0]
-            if check == res:
-                return res
+            if key == res:
+                return_dict[key] = i[key]
+                return return_dict
+            else:
+                return None
             
     def update(self, payload):
         for i in self.mycol.find():
