@@ -173,7 +173,6 @@ def save_weather_to_database(payload):
 
     try:
         d = database.Database()
-        print("Connected to database successfully")
     except:
         print("Database connection failed")
         return
@@ -181,11 +180,12 @@ def save_weather_to_database(payload):
     if d.print_all_data() is None:
         d.insert_one(payload)
         print("Payload inserted")
-        print(payload)
-        check = list(payload.keys())[0]
-        print(check)
+        #print(payload)
+        #check = list(payload.keys())[1]
+        #print(check)
     else:
         exist = get_weather_from_database(country, areaName, date)
+        print(exist)
         #check = list(payload.keys())[0]
         if exist is None:
             d.insert_one(payload)
@@ -203,7 +203,14 @@ def get_weather_from_database(country, areaName, date):
     key = country + ", " + areaName + ", " + date
     # return None instead
     d = database.Database()
+    #print(country)
+    #print(areaName)
+    #print(date)
+    #print(key)
+    #print(d.get_weather_from_database(key))
+    #d.print_all_data()
     if d.get_weather_from_database(key) is not None:
+        #print(key)
         return d.get_weather_from_database(key)
     else:
         return None
@@ -294,12 +301,16 @@ def getAllWeatherDescriptions():
 
 
 def main():
-    pass
+    #pass
+    #d = database.Database()
+    #print(d.print_all_data())
+    # print(get_weather_from_database("Singapore", "Singapore", "2023-03-15"))
     # pprint(frontend_get_weather("singapore",""))
     # get_weather_from_WTTRIN("antartica")
     # cache_Singapore()
     # pprint(get_weather_from_WTTRIN("Singapore"))
     # get_weather_from_WTTRIN("amazon")
+    get_weather_from_WTTRIN("singapore")
     # get_weather_from_WTTRIN("africa")
     # get_weather_from_WTTRIN("australia")
     # get_weather_from_WTTRIN("brazil")

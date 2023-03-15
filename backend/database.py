@@ -5,9 +5,10 @@ import datetime
 
 class Database():
     def __init__(self):
-        self.client = pymongo.MongoClient("mongodb://localhost:27017/")
+        self.client = pymongo.MongoClient("mongodb://192.168.137.192:27017/", connect=True)
         self.mydb = self.client["WeatherDatabase"]
-        self.mycol = self.mydb["WeatherCollection"]  
+        self.mycol = self.mydb["WeatherCollection"]
+        print("Connected to database successfully")  
 
     def insert_one(self, data):
         # Insert data into database
@@ -29,15 +30,15 @@ class Database():
 
     def get_weather_from_database(self, key):
         # Get weather from database
-        return_dict = {}
+        rturn_dict = {}
         for i in self.mycol.find():
+            #print(i)
             res = list(i.keys())[1]
             if key == res:
-                return_dict[key] = i[key]
-                return return_dict
-            else:
-                return None
-            
+                rturn_dict[key] = i.get(key)
+                return rturn_dict
+        return None
+
     def update(self, payload):
         for i in self.mycol.find():
             res = list(i.keys())[1]
