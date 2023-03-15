@@ -28,8 +28,8 @@
                             <img src="{{ url_for('static',filename='svg/cloudy.svg') }}">
                         {% elif hour.get("weatherDesc") == "Patchy rain possible" or hour.get("weatherDesc") == "Light drizzle" or hour.get("weatherDesc") == "Light rain shower" or hour.get("weatherDesc") == "Moderate or heavy rain shower"%}
                             <img src="{{ url_for('static',filename='svg/rainy.svg') }}">
-                                                {% elif hour.get("weatherDesc") == "Patchy light snow" or hour.get("weatherDesc") == "Blizzard" %}
-                            <img src="{{ url_for('static',filename='svg/snowy.svg') }}">
+                                                    {% elif hour.get("weatherDesc") == "Patchy light snow" or hour.get("weatherDesc") == "Blizzard" %}
+                                <img src="{{ url_for('static',filename='svg/snowy.svg') }}">
                         {% endif %}
                         {# Temperature #}
                         {{ hour.get("tempC") }}&#8451

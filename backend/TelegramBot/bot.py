@@ -81,8 +81,7 @@ def get_weather(country):
         return "[WEATHER UPDATE]\nThe weather in " + country + " is " + weather_desc + " at " + weather_temp + " degrees Celsius."
 
 
-def SG_channel_Update():
-    payload = get_weather_from_Server("Korea")
+def SG_channel_Update(payload):
     if payload is None:
         return None
     else:
@@ -90,8 +89,27 @@ def SG_channel_Update():
         weather_desc = payload.get(key).get("current_condition").get("weatherDesc")
         weather_temp = payload.get(key).get("current_condition").get("temp_C")
         country = payload.get(key).get("current_condition").get("country")
-        return "[WEATHER UPDATE]\nThe weather in " + country + " is " + weather_desc + " at " + weather_temp + " degrees Celsius."
+        return "☁️[WEATHER UPDATE]☁️\nThe weather in " + country + " is " + weather_desc + " at " + weather_temp + " degrees Celsius."
 
+def sgCheckRainy(payload):
+    if payload is None:
+        return None
+    else:
+        key = list(payload.keys())[0]
+        weather_desc = payload.get(key).get("current_condition").get("weatherDesc")
+        rain_strings = ["rain", "Rain", "RAIN", "cloudy", "Cloudy", "showers", "Showers", "SHOWER", "SHOWERS", "thunderstorm", "Thunderstorm", "THUNDERSTORM", "THUNDERSTORMS", "thunderstorms"]
+        for rain_string in rain_strings:
+            print("Checking for " + rain_string + "in " + weather_desc + "...", end="")
+            if rain_string in weather_desc:
+                print("It may rain soon!")
+                return "⛈️[RAIN ALERT]⛈️\nIt may rain soon!"
+
+        # for item in payload.get(key).get("current_condition").get("hourly"):
+        #     if item.get("chancerain") >= 50:
+        #         print("It may rain soon!")
+        #         return "⛈️[RAIN ALERT]⛈️\nIt may rain soon!"
+
+        return None
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
@@ -100,26 +118,38 @@ def handle_text(message):
 
 # Periodically send weather updates
 def send_weather_updates():
-    bot.send_message(-1001690185473, "The Weather Station bot is now alive!")
     # Fix the logic of this
     while True:
-        update = SG_channel_Update()
+        payload = get_weather_from_Server("Singapore")
+        update = SG_channel_Update(payload)
         if update is None:
             print("Error! Weather update failed!")
             bot.send_message(-1001690185473, "Error! Weather update failed!")
         else:
             print("Weather update sent!")
-            bot.send_message(-1001690185473, SG_channel_Update())
+            bot.send_message(-1001690185473, SG_channel_Update(payload))
 
         time.sleep(60)  # Should be every hour/day but for Demo purposes, every minute
 
+def send_rain_update():
+    while True:
+        payload = get_weather_from_Server("Singapore")
+        rain = sgCheckRainy(payload)
+        if rain is not None:
+            print("Rain alert sent!")
+            bot.send_message(-1001690185473, rain)
+
+        time.sleep(30)  # This can be every 1 hour but for Demo purposes, every minute
 
 # Multiple threads
 
 try:
+    bot.send_message(-1001690185473, "The Weather Station bot is now alive!")
     t = threading.Thread(target=send_weather_updates).start()
+    s = threading.Thread(target=send_rain_update).start()
     bot.polling()
     # Catch SIGKILL
 except KeyboardInterrupt or SystemExit:
+    bot.send_message(-1001690185473, "The Weather Station bot is now offline!")
     print("Bot stopped.")
     sys.exit()

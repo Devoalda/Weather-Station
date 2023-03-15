@@ -14,11 +14,19 @@
     <title>Dashboard</title>
 </head>
 <body>
+<!--<body onload="loader()">-->
+<!--<div id="loading">-->
+<!--    <div class="loading_container">-->
+<!--        <div id="spin"></div>-->
+<!--        <h1>Loading...</h1>-->
+<!--    </div>-->
+<!--</div>-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{url_for('search')}}">Home Weather Station</a>
         {#
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
                 #}
                 {# aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">#}
             {# <span class="navbar-toggler-icon"></span>#}
@@ -49,9 +57,21 @@
         #}
     </div>
 </nav>
+
 {% block content %}
 
 {% endblock %}
+
+<script>
+    // window.onload = loader;
+    //
+    // function loader() {
+    //     setTimeout(function () {
+    //         document.getElementById("loading").style.visibility = "hidden";
+    //         document.getElementById("page").style.display = "inline";
+    //     }, 3000);
+    // }
+</script>
 
 <!-- Optional JavaScript -->
 
