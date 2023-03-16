@@ -14,7 +14,7 @@
         <h3>LOST IN <span>SPACE</span> Weather Station in space? Hmm, looks like that page doesn't exist.</h3>
         <img id="astronaut" src="{{url_for('static',filename='svg/astronaut.svg')}}" />
         <img id="planet" src="{{url_for('static',filename='svg/planet.svg')}}" />
-        <a href="#"><button class="denied__link">Go Home</button></a>
+        <a href={{url_for('search')}}><button class="denied__link">Go Home</button></a>
     </div>
 </body>
     <script type="text/javascript"
