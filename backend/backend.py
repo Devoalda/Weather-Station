@@ -240,11 +240,11 @@ def frontend_get_weather(country, areaName):  # This function will be called by 
     else:
         # If not found, get weather from WTTRIN
         # This is just a backup in case the database is empty
-        weather_payload = get_weather_from_file(country, areaName, date)
-        print("Weather from file")
+        weather_payload = get_weather_from_WTTRIN(country)
+        print("Weather from WTTRIN")
         if weather_payload is None:
-            weather_payload = get_weather_from_WTTRIN(country)
-            print("Weather from WTTRIN")
+            weather_payload = get_weather_from_file(country, areaName, date)
+            print("Weather from file")
             return weather_payload
     return weather_payload
 

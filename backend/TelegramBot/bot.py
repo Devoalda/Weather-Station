@@ -99,9 +99,9 @@ def sgCheckRainy(payload):
         weather_desc = payload.get(key).get("current_condition").get("weatherDesc")
         rain_strings = ["rain", "Rain", "RAIN", "cloudy", "Cloudy", "showers", "Showers", "SHOWER", "SHOWERS", "thunderstorm", "Thunderstorm", "THUNDERSTORM", "THUNDERSTORMS", "thunderstorms"]
         for rain_string in rain_strings:
-            print("Checking for " + rain_string + "in " + weather_desc + "...", end="")
+            #print("Checking for " + rain_string + "in " + weather_desc + "...", end="")
             if rain_string in weather_desc:
-                print("It may rain soon!")
+                #print("It may rain soon!")
                 return "⛈️[RAIN ALERT]⛈️\nIt may rain soon!"
 
         # for item in payload.get(key).get("current_condition").get("hourly"):
