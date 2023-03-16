@@ -5,10 +5,13 @@ import datetime
 
 class Database():
     def __init__(self):
-        self.client = pymongo.MongoClient("mongodb://192.168.137.192:27017/", connect=True)
+        self.client = pymongo.MongoClient("mongodb://192.168.137.192:27017/", connect=True, serverSelectionTimeoutMS=1000)
         self.mydb = self.client["WeatherDatabase"]
         self.mycol = self.mydb["WeatherCollection"]
-        print("Connected to database successfully")  
+        if self.client.server_info():
+            print("Connected to database successfully")
+        else:
+            print("Failed to connect to database")
 
     def insert_one(self, data):
         # Insert data into database

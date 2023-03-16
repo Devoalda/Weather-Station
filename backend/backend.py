@@ -10,6 +10,8 @@ from threading import Thread, Timer
 from pprint import pprint
 from datetime import date
 import pymongo
+from pymongo.errors import ServerSelectionTimeoutError
+
 import database
 from time import sleep
 
@@ -224,9 +226,18 @@ def frontend_get_weather(country, areaName):  # This function will be called by 
     if areaName == "":
         areaName = country.title()
     # Get weather from database
-    weather_payload = None
-    # weather_payload = get_weather_from_database(country, areaName, date)
-    if weather_payload is None:
+    #weather_payload = None
+    try:
+        weather_payload = get_weather_from_database(country, areaName, date)
+    except ServerSelectionTimeoutError:
+        print("Database connection failed")
+        weather_payload = None
+
+    if weather_payload:
+        print(weather_payload)
+        print("Weather from database")
+        return weather_payload
+    else:
         # If not found, get weather from WTTRIN
         # This is just a backup in case the database is empty
         weather_payload = get_weather_from_file(country, areaName, date)
@@ -310,7 +321,8 @@ def main():
     # cache_Singapore()
     # pprint(get_weather_from_WTTRIN("Singapore"))
     # get_weather_from_WTTRIN("amazon")
-    get_weather_from_WTTRIN("singapore")
+    #get_weather_from_WTTRIN("singapore")
+    pprint(frontend_get_weather("Singapore", ""))
     # get_weather_from_WTTRIN("africa")
     # get_weather_from_WTTRIN("australia")
     # get_weather_from_WTTRIN("brazil")
