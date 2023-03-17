@@ -5,7 +5,7 @@ import datetime
 
 class Database():
     def __init__(self):
-        self.client = pymongo.MongoClient("mongodb://192.168.137.192:27017/", connect=True, serverSelectionTimeoutMS=1000)
+        self.client = pymongo.MongoClient("mongodb://192.168.1.12:27017/", connect=True, serverSelectionTimeoutMS=1000)
         self.mydb = self.client["WeatherDatabase"]
         self.mycol = self.mydb["WeatherCollection"]
         if self.client.server_info():
@@ -47,7 +47,8 @@ class Database():
             res = list(i.keys())[1]
             check = list(payload.keys())[0]
             if check == res:
-                print(payload)
+                pass
+                #print(payload)
 
     #def update_country(self, key):
     #    x = self.mycol.update_one({key()}, {"$set": new_val})

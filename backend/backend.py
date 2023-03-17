@@ -187,15 +187,15 @@ def save_weather_to_database(payload):
         #print(check)
     else:
         exist = get_weather_from_database(country, areaName, date)
-        print(exist)
+        #print(exist)
         #check = list(payload.keys())[0]
         if exist is None:
             d.insert_one(payload)
             print("Weather forecast for country does not exist, inserting payload now")
-            print(payload)
+            #print(payload)
         else:
             print("Weather forecast for country already exists, here it is")
-            print(payload)
+            #print(payload)
 
 
 def get_weather_from_database(country, areaName, date):
@@ -234,8 +234,8 @@ def frontend_get_weather(country, areaName):  # This function will be called by 
         weather_payload = None
 
     if weather_payload:
-        print(weather_payload)
-        print("Weather from database")
+        #print(weather_payload)
+        #print("Weather from database")
         return weather_payload
     else:
         # If not found, get weather from WTTRIN
@@ -312,7 +312,7 @@ def getAllWeatherDescriptions():
 
 
 def main():
-    #pass
+    pass
     #d = database.Database()
     #print(d.print_all_data())
     # print(get_weather_from_database("Singapore", "Singapore", "2023-03-15"))
@@ -322,7 +322,7 @@ def main():
     # pprint(get_weather_from_WTTRIN("Singapore"))
     # get_weather_from_WTTRIN("amazon")
     #get_weather_from_WTTRIN("singapore")
-    pprint(frontend_get_weather("Singapore", ""))
+    #pprint(frontend_get_weather("Singapore", ""))
     # get_weather_from_WTTRIN("africa")
     # get_weather_from_WTTRIN("australia")
     # get_weather_from_WTTRIN("brazil")

@@ -4,7 +4,7 @@ from pprint import pprint
 import ssl
 
 SERVER_IP = "127.0.0.1"
-SERVER_PORT = 12000
+SERVER_PORT = 12001
 # Client will use this function to get weather from server
 def get_weather_from_Server(country):
     # Server Config
@@ -28,7 +28,7 @@ def get_weather_from_Server(country):
     return payload
 
 def main():
-    pprint(get_weather_from_Server("china"))
+    pprint(get_weather_from_Server("Singapore"))
 
 
 if __name__ == '__main__':
