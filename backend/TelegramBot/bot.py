@@ -91,23 +91,43 @@ def SG_channel_Update(payload):
         country = payload.get(key).get("current_condition").get("country")
         return "☁️[WEATHER UPDATE]☁️\nThe weather in " + country + " is " + weather_desc + " at " + weather_temp + " degrees Celsius."
 
-def sgCheckRainy(payload):
+def sgCheckRainy(payload): #TODO Check
     if payload is None:
         return None
     else:
+        #current_time_24hr = time.strftime("%H")
+        # 24 Hour time in 4 digits
+        current_time_24hr = time.strftime("%H%M")
+        print("Current time: " + current_time_24hr)
         key = list(payload.keys())[0]
-        weather_desc = payload.get(key).get("current_condition").get("weatherDesc")
-        rain_strings = ["rain", "Rain", "RAIN", "cloudy", "Cloudy", "showers", "Showers", "SHOWER", "SHOWERS", "thunderstorm", "Thunderstorm", "THUNDERSTORM", "THUNDERSTORMS", "thunderstorms"]
-        for rain_string in rain_strings:
-            #print("Checking for " + rain_string + "in " + weather_desc + "...", end="")
-            if rain_string in weather_desc:
-                #print("It may rain soon!")
-                return "⛈️[RAIN ALERT]⛈️\nIt may rain soon!"
+        hourly_list = payload.get(key).get("hourly")
+        closest_time = 2400
 
-        # for item in payload.get(key).get("current_condition").get("hourly"):
-        #     if item.get("chancerain") >= 50:
-        #         print("It may rain soon!")
-        #         return "⛈️[RAIN ALERT]⛈️\nIt may rain soon!"
+        # Find the closest time to the current time
+        for item in hourly_list:
+            if int(item.get("time")) > int(current_time_24hr) and int(item.get("time")) < closest_time:
+                closest_time = int(item.get("time"))
+
+        if closest_time == 2400:
+            closest_time = 0
+
+        print("Closest time: " + str(closest_time))
+        for item in hourly_list:
+            # Find the closest time with closest_time
+            if int(item.get("time")) == int(closest_time):
+                chance_rain = item.get("chancerain")
+                print("Chance of rain: " + str(chance_rain))
+                if int(chance_rain) >= 50:
+                    print("⛈️[RAIN ALERT]⛈️\nIt may rain soon!")
+                    return"⛈️[RAIN ALERT]⛈️\nIt may rain soon!"
+
+        #weather_desc = payload.get(key).get("current_condition").get("weatherDesc")
+        #rain_strings = ["rain", "Rain", "RAIN", "cloudy", "Cloudy", "showers", "Showers", "SHOWER", "SHOWERS", "thunderstorm", "Thunderstorm", "THUNDERSTORM", "THUNDERSTORMS", "thunderstorms"]
+        #for rain_string in rain_strings:
+            #print("Checking for " + rain_string + "in " + weather_desc + "...", end="")
+        #    if rain_string in weather_desc:
+        #        #print("It may rain soon!")
+        #        return "⛈️[RAIN ALERT]⛈️\nIt may rain soon!"
 
         return None
 
@@ -141,15 +161,16 @@ def send_rain_update():
 
         time.sleep(30)  # This can be every 1 hour but for Demo purposes, every minute
 
+#send_rain_update()
 # Multiple threads
 
 try:
-    bot.send_message(-1001690185473, "The Weather Station bot is now alive!")
-    t = threading.Thread(target=send_weather_updates).start()
-    s = threading.Thread(target=send_rain_update).start()
-    bot.polling()
-    # Catch SIGKILL
+   bot.send_message(-1001690185473, "The Weather Station bot is now alive!")
+   t = threading.Thread(target=send_weather_updates).start()
+   s = threading.Thread(target=send_rain_update).start()
+   bot.polling()
+   # Catch SIGKILL
 except KeyboardInterrupt or SystemExit:
-    bot.send_message(-1001690185473, "The Weather Station bot is now offline!")
-    print("Bot stopped.")
-    sys.exit()
+   bot.send_message(-1001690185473, "The Weather Station bot is now offline!")
+   print("Bot stopped.")
+   sys.exit()
