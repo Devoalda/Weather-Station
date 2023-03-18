@@ -7,10 +7,17 @@ from socket import *
 from pprint import pprint
 import ssl
 import re
-
+import configparser
 # https://ipinfo.io/json
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '***REMOVED***'
+
+# Configs
+config = configparser.ConfigParser()
+config.read('../Config/config.ini')
+SERVER_PORT = int(config.get('backendServer', 'Port'))
+SERVER_IP = config.get('backendServer', 'IP')
+CERT = config.get('SSL', 'Cert')
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -19,15 +26,13 @@ def search():
         # Server Config
         # Change IP to your server IP
         try:
-            serverIP = "127.0.0.1"
-            serverPort = 12000
 
             context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-            context.load_verify_locations('../backend/SSL/certificate.pem')
+            context.load_verify_locations(CERT)
             context.check_hostname = False
 
-            clientSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_hostname=serverIP)
-            clientSocket.connect((serverIP, serverPort))
+            clientSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_hostname=SERVER_IP)
+            clientSocket.connect((SERVER_IP, SERVER_PORT))
 
             clientSocket.send(country.encode())
             buffer = 20480
@@ -58,15 +63,12 @@ def index(country):  # put application's code here
         # Server Config
         # Change IP to your server IP
         try:
-            serverIP = "127.0.0.1"
-            serverPort = 12000
-
             context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-            context.load_verify_locations('../backend/SSL/certificate.pem')
+            context.load_verify_locations(CERT)
             context.check_hostname = False
 
-            clientSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_hostname=serverIP)
-            clientSocket.connect((serverIP, serverPort))
+            clientSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_hostname=SERVER_IP)
+            clientSocket.connect((SERVER_IP, SERVER_PORT))
 
             clientSocket.send(country.encode())
             buffer = 20480

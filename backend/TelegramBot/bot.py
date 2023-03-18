@@ -1,5 +1,4 @@
 # pip install pyTelegramBotAPI
-
 import telebot
 import json
 from socket import *
@@ -7,13 +6,18 @@ import ssl
 import time
 import sys
 import threading
-#import backend as backend
+import configparser
+# import backend as backend
 
-SERVER_IP = "127.0.0.1"
-SERVER_PORT = 12000
+config = configparser.ConfigParser()
+config.read('../../Config/config.ini')
+SERVER_PORT = int(config.get('backendServer', 'Port'))
+SERVER_IP = config.get('backendServer', 'IP')
+CERT = config.get('SSL', 'Cert')
+TOKEN = config.get('TELEGRAM_BOT', 'Token')
 
-with open("secret.txt", "r") as f:
-    TOKEN = f.readline()
+# with open("secret.txt", "r") as f:
+#     TOKEN = f.readline()
 
 bot = telebot.TeleBot(TOKEN, parse_mode=None)
 
@@ -91,13 +95,14 @@ def SG_channel_Update(payload):
         country = payload.get(key).get("current_condition").get("country")
         return "☁️[WEATHER UPDATE]☁️\nThe weather in " + country + " is " + weather_desc + " at " + weather_temp + " degrees Celsius."
 
-def sgCheckRainy(payload): #TODO Check
+
+def sgCheckRainy(payload):
     if payload is None:
         return None
     else:
-        #current_time_24hr = time.strftime("%H")
         # 24 Hour time in 4 digits
-        current_time_24hr = time.strftime("%H%M")
+        # current_time_24hr = time.strftime("%H%M")
+        current_time_24hr = time.strftime("14%M")
         print("Current time: " + current_time_24hr)
         key = list(payload.keys())[0]
         hourly_list = payload.get(key).get("hourly")
@@ -105,7 +110,7 @@ def sgCheckRainy(payload): #TODO Check
 
         # Find the closest time to the current time
         for item in hourly_list:
-            if int(item.get("time")) > int(current_time_24hr) and int(item.get("time")) < closest_time:
+            if int(current_time_24hr) < int(item.get("time")) < closest_time:
                 closest_time = int(item.get("time"))
 
         if closest_time == 2400:
@@ -118,18 +123,10 @@ def sgCheckRainy(payload): #TODO Check
                 chance_rain = item.get("chancerain")
                 print("Chance of rain: " + str(chance_rain))
                 if int(chance_rain) >= 50:
-                    print("⛈️[RAIN ALERT]⛈️\nIt may rain soon!")
-                    return"⛈️[RAIN ALERT]⛈️\nIt may rain soon!"
-
-        #weather_desc = payload.get(key).get("current_condition").get("weatherDesc")
-        #rain_strings = ["rain", "Rain", "RAIN", "cloudy", "Cloudy", "showers", "Showers", "SHOWER", "SHOWERS", "thunderstorm", "Thunderstorm", "THUNDERSTORM", "THUNDERSTORMS", "thunderstorms"]
-        #for rain_string in rain_strings:
-            #print("Checking for " + rain_string + "in " + weather_desc + "...", end="")
-        #    if rain_string in weather_desc:
-        #        #print("It may rain soon!")
-        #        return "⛈️[RAIN ALERT]⛈️\nIt may rain soon!"
+                    return"⛈️[RAIN ALERT]⛈️\nIt may rain soon!\nLocation: " + payload.get(key).get("current_condition").get("country") + "\nTime Now: " + str(current_time_24hr) + "\nTime: " + str(closest_time) + "\nChance of rain: " + str(chance_rain) + "%"
 
         return None
+
 
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
@@ -151,6 +148,7 @@ def send_weather_updates():
 
         time.sleep(60)  # Should be every hour/day but for Demo purposes, every minute
 
+
 def send_rain_update():
     while True:
         payload = get_weather_from_Server("Singapore")
@@ -159,18 +157,19 @@ def send_rain_update():
             print("Rain alert sent!")
             bot.send_message(-1001690185473, rain)
 
-        time.sleep(30)  # This can be every 1 hour but for Demo purposes, every minute
+        time.sleep(30)  # This can be every 1 hour but for Demo purposes, every 30 seconds
 
-#send_rain_update()
+
+# send_rain_update()
 # Multiple threads
 
 try:
-   bot.send_message(-1001690185473, "The Weather Station bot is now alive!")
-   t = threading.Thread(target=send_weather_updates).start()
-   s = threading.Thread(target=send_rain_update).start()
-   bot.polling()
-   # Catch SIGKILL
+    bot.send_message(-1001690185473, "The Weather Station bot is now alive!")
+    t = threading.Thread(target=send_weather_updates).start()
+    s = threading.Thread(target=send_rain_update).start()
+    bot.polling()
+    # Catch SIGKILL
 except KeyboardInterrupt or SystemExit:
-   bot.send_message(-1001690185473, "The Weather Station bot is now offline!")
-   print("Bot stopped.")
-   sys.exit()
+    bot.send_message(-1001690185473, "The Weather Station bot is now offline!")
+    print("Bot stopped.")
+    sys.exit()

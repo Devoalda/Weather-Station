@@ -1,0 +1,23 @@
+# File Location: /etc/systemd/system/singapore_cache.service
+# Usage:
+# Insert file in Location
+# Run systemctl daemon-reload (with root if not su)
+# systemctl start singapore_cache.service
+# systemctl enable singapore_cache.service (To enable it on boot)
+
+[Unit]
+Wants=network-online.target
+After=network.target
+Description=Weather-Station Server
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/Documents/Weather-Station/backend/
+ExecStart=/usr/bin/python server.py
+User=pi
+Restart=always
+RestartSec=60
+
+[Install]
+WantedBy=multi-user.target
+# WantedBy=default.target

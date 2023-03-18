@@ -73,8 +73,14 @@ def wttr_in_payload_generation(json_object):
 def get_weather_from_WTTRIN(Country):
     # Change all spaces to + and capitalize all first letters
     country = Country.replace(" ", "+").title()
+
     site = "https://wttr.in/" + country + "?format=j1"
-    weather_req = requests.get(site)
+    try:
+        weather_req = requests.get(site, timeout=5)
+    except requests.exceptions.ConnectionError:
+        print("Error: Could not connect to wttr.in")
+        return None
+
     if b'Unknown location;' in weather_req.content:
         return None
     weather_json = weather_req.json()
@@ -83,7 +89,7 @@ def get_weather_from_WTTRIN(Country):
 
     # Save to file
     # All weather data will be saved to a file
-    save_weather_to_file(weather_json)
+    # save_weather_to_file(weather_json)
 
     # save payload to file (This is the payload that will be sent to the frontend)
     save_payload_to_file(payload)

@@ -3,13 +3,10 @@ from socket import *
 from pprint import pprint
 import ssl
 from threading import Thread
+
+import configparser
+
 import backend
-# import singapore_cache
-
-certificate = "./SSL/certificate.pem"
-privatekey = "./SSL/privatekey.pem"
-
-SERVER_PORT = 12000
 
 def child(connectionSocket):
     country = connectionSocket.recv(1024).decode()
@@ -21,14 +18,14 @@ def child(connectionSocket):
         connectionSocket.send(json.dumps(weather_payload).encode())
     connectionSocket.close()
 
-def tcpServer():
+def tcpServer(PORT, CERT, PRIVATEKEY):
     # serverSocket = socket(AF_INET, SOCK_STREAM)
     # TCP with TLS
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-    context.load_cert_chain(certificate, privatekey)
+    context.load_cert_chain(CERT, PRIVATEKEY)
 
     serverSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_side=True)
-    serverSocket.bind(('', SERVER_PORT))
+    serverSocket.bind(('', PORT))
 
     try:
         # TCP Server
@@ -47,7 +44,13 @@ def tcpServer():
         serverSocket.close()
 
 def main():
-    tcpServer()
+    config = configparser.ConfigParser()
+    config.read('../Config/config.ini')
+    SERVER_PORT = int(config.get('backendServer', 'Port'))
+    CERT = config.get('SSL', 'Cert')
+    PRIVATEKEY = config.get('SSL', 'PrivateKey')
+
+    tcpServer(SERVER_PORT, CERT, PRIVATEKEY)
     # Cache Singapore weather
     # Supposed to run together but its not
     #try:
