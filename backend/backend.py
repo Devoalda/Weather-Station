@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import ssl
+from json import JSONDecodeError
 
 import requests
 import json
@@ -90,6 +91,7 @@ def get_weather_from_WTTRIN(Country):
     # save payload to file (This is the payload that will be sent to the frontend)
     save_payload_to_file(payload)
 
+
     # Save payload to database
     # Only payload will be saved to database
 
@@ -125,8 +127,13 @@ def save_payload_to_file(json_object):
 
     # read in a list of dictionaries
     with open(FILE_DB, "r") as outfile:
-        payload = json.load(outfile)
-        outfile.close()
+        try:
+            payload = json.load(outfile)
+        except json.decoder.JSONDecodeError:
+            print("Error: Could not decode JSON")
+        finally:
+            outfile.close()
+            return
 
     # Key for each entry in the payload is the key in json_object
     key = list(json_object.keys())[0]
