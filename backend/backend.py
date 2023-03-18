@@ -131,9 +131,9 @@ def save_payload_to_file(json_object):
             payload = json.load(outfile)
         except json.decoder.JSONDecodeError:
             print("Error: Could not decode JSON")
+            return
         finally:
             outfile.close()
-            return
 
     # Key for each entry in the payload is the key in json_object
     key = list(json_object.keys())[0]
