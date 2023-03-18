@@ -10,6 +10,14 @@ hr {
 
 }
 
+footer {
+   position: fixed;
+   bottom: 0;
+   width: 100%;
+   height: 100px;   /* Height of the footer */
+   background: #6cf;
+}
+
 .banner {
     opacity: 0.6;
     display: block;

@@ -48,12 +48,11 @@ def search():
             return None
 
     if request.method == 'POST':
-        location = request.form['location']
-        resp = get_weather_from_Server(location)
+        resp = request.form['location']
         if resp is None:
             return redirect('404')
         if resp:
-            return redirect('location/' + location)
+            return redirect('location/' + resp)
     return render_template('search.html')
 
 
@@ -86,7 +85,7 @@ def index(country):  # put application's code here
 
     apiData = get_weather_from_Server(country)
     if apiData is None:
-        return redirect('404')
+        return redirect(url_for('error404'))
 
 
     def countryRegionDetails(data):
