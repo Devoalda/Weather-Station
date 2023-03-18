@@ -12,7 +12,6 @@ def get_weather_from_Server(country):
     SERVER_PORT = int(config.get('backendServer', 'Port'))
     SERVER_IP = config.get('backendServer', 'IP')
     CERT = config.get('SSL', 'Cert')
-    # Change IP to your server IP
 
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
     context.load_verify_locations(CERT)

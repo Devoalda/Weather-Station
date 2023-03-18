@@ -1,12 +1,18 @@
 import json
 from socket import *
-from pprint import pprint
 import ssl
-from threading import Thread
-
 import configparser
-
 import backend
+from threading import Thread
+import singapore_cache as singapore_cache
+
+# Config
+config = configparser.ConfigParser()
+config.read('../Config/config.ini')
+SERVER_PORT = int(config.get('backendServer', 'Port'))
+CERT = config.get('SSL', 'Cert')
+PRIVATEKEY = config.get('SSL', 'PrivateKey')
+
 
 def child(connectionSocket):
     country = connectionSocket.recv(1024).decode()
@@ -44,20 +50,10 @@ def tcpServer(PORT, CERT, PRIVATEKEY):
         serverSocket.close()
 
 def main():
-    config = configparser.ConfigParser()
-    config.read('../Config/config.ini')
-    SERVER_PORT = int(config.get('backendServer', 'Port'))
-    CERT = config.get('SSL', 'Cert')
-    PRIVATEKEY = config.get('SSL', 'PrivateKey')
-
+    # Start singapore_cache thread
+    singapore_cache.cache_Singapore()
+    # Start TCP Server
     tcpServer(SERVER_PORT, CERT, PRIVATEKEY)
-    # Cache Singapore weather
-    # Supposed to run together but its not
-    #try:
-    #    singapore_cache.cache_Singapore()
-    #except Exception as e:
-    #    print(e)
-
 
 if __name__ == '__main__':
     main()
