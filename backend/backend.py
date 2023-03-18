@@ -2,19 +2,21 @@
 import ssl
 from json import JSONDecodeError
 
-import requests
-import json
-import datetime
-import  threading
-from pymongo.errors import ServerSelectionTimeoutError
-import configparser
-import database
+import requests  # For getting weather from wttr.in
+import json  # For parsing wttr.in response
+import datetime  # For getting current time
+import threading # For threading
+from pymongo.errors import ServerSelectionTimeoutError # For checking if MongoDB is running
+import configparser # For reading config file
+import database # For database operations
+import fcntl # For locking file (Read/Write)
 
+# Server Config
 config = configparser.ConfigParser()
 config.read('../Config/config.ini')
 FILE_DB = config.get('FILE_DB', 'FILE_PATH')
 
-
+# Parse wttr.in response and return a dictionary
 def wttr_in_payload_generation(json_object):
     payload = {}
     current_condition = {}
@@ -62,19 +64,24 @@ def wttr_in_payload_generation(json_object):
 
     # Payload Dictionary
     # Key will be Country, areaName, Date
-    key = (json_object["nearest_area"][0]["country"][0]["value"] + ", " + str(region) + ", " + json_object["weather"][0]["date"])
+    key = (json_object["nearest_area"][0]["country"][0]["value"] + ", " + str(region) + ", " +
+           json_object["weather"][0]["date"])
 
     payload[key] = {"current_condition": current_condition, "hourly": payload_hourly_list, "weather": weather}
 
     return payload
 
 
+# Get weather from wttr.in and save to database
 def get_weather_from_WTTRIN(Country):
     # Change all spaces to + and capitalize all first letters
     country = Country.replace(" ", "+").title()
+    # Get weather from wttr.in
     site = "https://wttr.in/" + country + "?format=j1"
     try:
+        # Get weather from wttr.in with timeout of 5 secs
         weather_req = requests.get(site, timeout=5)
+    # Catch exceptions
     except requests.exceptions.ConnectionError:
         print("Error: Could not connect to wttr.in")
         return None
@@ -82,69 +89,75 @@ def get_weather_from_WTTRIN(Country):
         print("Error: Read timeout")
         return None
 
+    # If location is not found, return None
     if b'Unknown location;' in weather_req.content:
         return None
+
+    # JSON object of weather
     weather_json = weather_req.json()
 
+    # Generate payload
     payload = wttr_in_payload_generation(weather_json)  # This payload will be saved to database
 
     # save payload to file (This is the payload that will be sent to the frontend)
     save_payload_to_file(payload)
 
-
     # Save payload to database
     # Only payload will be saved to database
-
     # run function with timeout of 5 secs
     try:
-        # create a thread timer object
-        # save_weather_to_database(payload)
         t = threading.Timer(15.0, save_weather_to_database, [payload])
         t.start()
     except:
         print("Error: Could not save to database")
-
     return payload
 
 
+# Save weather to file Database (Payload)
 def save_payload_to_file(json_object):
     payload = {}
-    FILE_DB
 
     # Create file if it does not exist
     with open(FILE_DB, "a") as outfile:
         outfile.close()
 
-    # Check if file is empty
-    if (open(FILE_DB, "r").read() == ""):
+    # Acquire file lock
+    with open(FILE_DB, "r") as f:
+        fcntl.flock(f, fcntl.LOCK_EX)
+
+        # Check if file is empty
+        if (open(FILE_DB, "r").read() == ""):
+            with open(FILE_DB, "w") as outfile:
+                # Key for each entry in the payload is the key in json_object
+                key = list(json_object.keys())[0]
+                payload[key] = json_object[key]
+                json.dump(payload, outfile, indent=4)
+                outfile.close()
+                fcntl.flock(f, fcntl.LOCK_UN)
+                return
+
+        # read in a list of dictionaries
+        with open(FILE_DB, "r") as outfile:
+            try:
+                payload = json.load(outfile)
+            except json.decoder.JSONDecodeError:
+                print("Error: Could not decode JSON")
+                fcntl.flock(f, fcntl.LOCK_UN)
+                return
+
+        # Key for each entry in the payload is the key in json_object
+        key = list(json_object.keys())[0]
+        payload[key] = json_object[key]
+
         with open(FILE_DB, "w") as outfile:
-            # Key for each entry in the payload is the key in json_object
-            key = list(json_object.keys())[0]
-            payload[key] = json_object[key]
             json.dump(payload, outfile, indent=4)
             outfile.close()
-            return
 
-    # read in a list of dictionaries
-    with open(FILE_DB, "r") as outfile:
-        try:
-            payload = json.load(outfile)
-        except json.decoder.JSONDecodeError:
-            print("Error: Could not decode JSON")
-            return
-        finally:
-            outfile.close()
-
-    # Key for each entry in the payload is the key in json_object
-    key = list(json_object.keys())[0]
-    payload[key] = json_object[key]
-
-    with open(FILE_DB, "w") as outfile:
-        json.dump(payload, outfile, indent=4)
-        outfile.close()
+        # Release file lock
+        fcntl.flock(f, fcntl.LOCK_UN)
 
 
-def save_weather_to_file(json_object):  #TODO: REMOVE, probably not required
+def save_weather_to_file(json_object):  # TODO: REMOVE, probably not required
     weather_list = []
     file = "weather.json"
 
@@ -191,20 +204,20 @@ def save_weather_to_database(payload):
     if d.print_all_data() is None:
         d.insert_one(payload)
         print("Payload inserted")
-        #print(payload)
-        #check = list(payload.keys())[1]
-        #print(check)
+        # print(payload)
+        # check = list(payload.keys())[1]
+        # print(check)
     else:
         exist = get_weather_from_database(country, areaName, date)
-        #print(exist)
-        #check = list(payload.keys())[0]
+        # print(exist)
+        # check = list(payload.keys())[0]
         if exist is None:
             d.insert_one(payload)
             print("Weather forecast for country does not exist, inserting payload now")
-            #print(payload)
+            # print(payload)
         else:
             print("Weather forecast for country already exists, here it is")
-            #print(payload)
+            # print(payload)
 
 
 def get_weather_from_database(country, areaName, date):
@@ -214,28 +227,28 @@ def get_weather_from_database(country, areaName, date):
     key = country + ", " + areaName + ", " + date
     # return None instead
     d = database.Database()
-    #print(country)
-    #print(areaName)
-    #print(date)
-    #print(key)
-    #print(d.get_weather_from_database(key))
-    #d.print_all_data()
+    # print(country)
+    # print(areaName)
+    # print(date)
+    # print(key)
+    # print(d.get_weather_from_database(key))
+    # d.print_all_data()
     if d.get_weather_from_database(key) is not None:
-        #print(key)
+        # print(key)
         return d.get_weather_from_database(key)
     else:
         return None
 
 
 def frontend_get_weather(country, areaName):  # This function will be called by frontend
-
+    # Make sure country and areaName are in title case
     country = country.title()
+    # Get current date
     date = datetime.datetime.now().strftime("%Y-%m-%d")
-    # print(date)
+    # If areaName is empty, set it to country
     if areaName == "":
         areaName = country.title()
     # Get weather from database
-    #weather_payload = None
     try:
         weather_payload = get_weather_from_database(country, areaName, date)
     except ServerSelectionTimeoutError:
@@ -243,19 +256,18 @@ def frontend_get_weather(country, areaName):  # This function will be called by 
         weather_payload = None
 
     if weather_payload:
-        #print(weather_payload)
-        #print("Weather from database")
         return weather_payload
     else:
         # If not found, get weather from WTTRIN
         weather_payload = get_weather_from_WTTRIN(country)
-        print("Weather from WTTRIN")
+        print("Sent Weather from WTTRIN")
         if weather_payload is None:
             # This is just a backup in case the database is empty
             weather_payload = get_weather_from_file(country, areaName, date)
-            print("Weather from file")
+            print("Sent Weather from file")
             return weather_payload
     return weather_payload
+
 
 def get_weather_from_file(country, areaName, date):
     ret_payload = {}
@@ -272,7 +284,7 @@ def get_weather_from_file(country, areaName, date):
     return ret_payload
 
 
-def old_data_rubbish_collection(): # TODO: REMOVE, Probably not needed
+def old_data_rubbish_collection():  # TODO: REMOVE, Probably not needed
     # Get date 7 days ago (Can be changed to later date)
     date_to_delete = datetime.datetime.now().date() - datetime.timedelta(days=7)
 
@@ -291,7 +303,7 @@ def old_data_rubbish_collection(): # TODO: REMOVE, Probably not needed
         outfile.close()
 
 
-def get_latest_weather_from_file():
+def get_latest_weather_from_file(): # TODO: REMOVE, Probably not needed
     file = "weather.json"
     weather_list = []
 
@@ -302,12 +314,12 @@ def get_latest_weather_from_file():
     return weather_list[-1]
 
 
-def printKeys(json_object):
+def printKeys(json_object): #TODO: REMOVE, Probably not needed
     for key in json_object:
         print(key)
 
 
-def getAllWeatherDescriptions():
+def getAllWeatherDescriptions(): #TODO: REMOVE, Probably not needed
     with open(FILE_DB, "r") as outfile:
         weather_dict = json.load(outfile)
         outfile.close()
@@ -322,6 +334,7 @@ def getAllWeatherDescriptions():
 
 def main():
     pass
+
 
 if __name__ == '__main__':
     main()
