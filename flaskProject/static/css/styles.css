@@ -45,18 +45,19 @@ footer {
 .centerObject {
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 30px;
 }
 
 .qrcode {
-    width: 25%;
+    width: 20%;
+    min-width: 200px;
     height: auto;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 300px;
+    margin-bottom: 30px;
 }
 
 .searchBar {
+    width: 80%;
     position: relative;
     margin-left: auto;
     margin-right: auto;

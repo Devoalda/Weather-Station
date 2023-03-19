@@ -16,7 +16,7 @@
 
 <div class="container-fluid">
     <form method="post">
-        <div class="input-group">
+        <div class="input-group searchBar">
             <input type="text" class="form-control" id="searchBar" placeholder="Search a Location"
                    aria-label="Recipient's username" aria-describedby="basic-addon2"
                    name="location" value="{{ request.form['location'] }}">
@@ -30,15 +30,25 @@
     </form>
     <div class="rowSpace"></div>
     <div class="row">
-        <button type="button" class="btn btn-secondary centerObject" data-bs-toggle="tooltip" data-bs-placement="top"
-                title="Scan QR Code Below">
-            Scan QR Code to Access Weather Bot
-        </button>
-    </div>
-    <div class="row">
-        <a class="qrcode" target="_blank" href="https://t.me/WeatherStation1006_bot">
-            <img src="{{ url_for('static',filename='svg/weatherBot.svg') }}" alt="telegram qr code">
-        </a>
+        <div class="col">
+            <div class="card">
+                <div class="card-body text-center">Scan QR Code to Access Weather Channel</div>
+                <a class="centerObject" target="_blank" href="https://t.me/+CpWd_anJv5gxZmJl">
+                    <img class="qrcode centerObject" src="{{ url_for('static',filename='svg/weatherChannel.svg') }}"
+                         alt="telegram qr code">
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body text-center">Scan QR Code to Access Weather Bot</div>
+                <a class="centerObject" target="_blank" href="https://t.me/WeatherStation1006_bot">
+                <img class="qrcode centerObject" src="{{ url_for('static',filename='svg/weatherBot.svg') }}"
+                     alt="telegram qr code">
+            </a>
+            </div>
+
+        </div>
     </div>
 
 
