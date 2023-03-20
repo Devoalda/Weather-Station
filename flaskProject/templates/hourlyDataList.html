@@ -1,75 +1,87 @@
-
 <div class="card">
     <h5 class="card-title text-center">Hourly</h5>
 </div>
 <div id="accordion" role="tablist">
     {% for hour in hourlyData %}
-        <div class="card">
-            {#  Card Header  #}
-            <div class="card-header" role="tab" id="headingOne">
-                <h5 class="mb-0">
-                    <a data-toggle="collapse" href="#collapse{{ hour.get('time') }}" aria-expanded="false"
-                       aria-controls="collapse{{ hour.get('time') }}">
-                        {% if hour.get("time") == "0" %}
-                            Time: 0000
-                        {% elif hour.get("time") == "300" %}
-                            Time: 0300
-                        {% elif hour.get("time") == "600" %}
-                            Time: 0600
-                        {% elif hour.get("time") == "900" %}
-                            Time: 0900
-                        {% else %}
-                            Time: {{ hour.get("time") }}
-                        {% endif %}
-                        {# Weather Condition Icon #}
-                        {% if hour.get("weatherDesc") == "Clear" or hour.get("weatherDesc") == "Sunny" %}
-                            <img src="{{ url_for('static',filename='svg/clear_day.svg') }}">
-                        {% elif hour.get("weatherDesc") == "Partly cloudy"or hour.get("weatherDesc") == "Cloudy" or hour.get("weatherDesc") == "Overcast" or hour.get("weatherDesc") == "Freezing fog" or hour.get("weatherDesc") == "Mist" or hour.get("weatherDesc") == "Mist" %}
-                            <img src="{{ url_for('static',filename='svg/cloudy.svg') }}">
-                        {% elif hour.get("weatherDesc") == "Patchy rain possible" or hour.get("weatherDesc") == "Light drizzle" or hour.get("weatherDesc") == "Light rain shower" or hour.get("weatherDesc") == "Moderate or heavy rain shower"%}
-                            <img src="{{ url_for('static',filename='svg/rainy.svg') }}">
-                                                    {% elif hour.get("weatherDesc") == "Patchy light snow" or hour.get("weatherDesc") == "Blizzard" %}
-                                <img src="{{ url_for('static',filename='svg/snowy.svg') }}">
-                        {% endif %}
-                        {# Temperature #}
-                        {{ hour.get("tempC") }}&#8451
-                    </a>
-                </h5>
-            </div>
+    <div class="card">
+        {# Card Header #}
+        <div class="card-header" role="tab" id="headingOne">
+            <h5 class="mb-0">
+                <a data-toggle="collapse" href="#collapse{{ hour.get('time') }}" aria-expanded="false"
+                   aria-controls="collapse{{ hour.get('time') }}">
+                    {% if hour.get("time") == "0" %}
+                    Time: 0000
+                    {% elif hour.get("time") == "300" %}
+                    Time: 0300
+                    {% elif hour.get("time") == "600" %}
+                    Time: 0600
+                    {% elif hour.get("time") == "900" %}
+                    Time: 0900
+                    {% else %}
+                    Time: {{ hour.get("time") }}
+                    {% endif %}
+                    {# Weather Condition Icon #}
+                    {% if hour.get("weatherDesc") == "Clear" or hour.get("weatherDesc") == "Sunny" %}
+                    <img src="{{ url_for('static',filename='svg/clear_day.svg') }}">
+                    {% elif hour.get("weatherDesc") == "Partly cloudy"or hour.get("weatherDesc") == "Cloudy" or
+                    hour.get("weatherDesc") == "Overcast" or hour.get("weatherDesc") == "Freezing fog" or
+                    hour.get("weatherDesc") == "Fog" or hour.get("weatherDesc") == "Mist" %}
+                    <img src="{{ url_for('static',filename='svg/cloudy.svg') }}">
+                    {% elif hour.get("weatherDesc") == "Patchy rain possible" or hour.get("weatherDesc") == "Light
+                    drizzle" or hour.get("weatherDesc") == "Light rain shower" or hour.get("weatherDesc") == "Moderate
+                    or heavy rain shower"%}
+                    <img src="{{ url_for('static',filename='svg/rainy.svg') }}">
+                    {% elif hour.get("weatherDesc") == "Patchy light snow" or hour.get("weatherDesc") == "Blizzard" %}
+                    <img src="{{ url_for('static',filename='svg/snowy.svg') }}">
+                    {% elif hour.get("weatherDesc") == "Thunderstorm in vicinity"
+                    <img src="{{ url_for('static',filename='svg/thunder.svg') }}">
+                    {% endif %}
+                    {# Temperature #}
+                    {{ hour.get("tempC") }}&#8451
+                </a>
+            </h5>
+        </div>
 
-            {# Collapsed Card #}
-            <div id="collapse{{ hour.get('time') }}" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6 floatLeft">Dew Point</div>
-                        <div class="col-sm-6 floatRight">{{ hour.get("DewPointC") }}&#8451</div>
+        {# Collapsed Card #}
+        <div id="collapse{{ hour.get('time') }}" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6 floatLeft">Dew Point</div>
+                    <div class="col-sm-6 floatRight">{{ hour.get("DewPointC") }}&#8451</div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-sm-6 floatLeft">Wind</div>
+                    <div class="col-sm-6 floatRight">{{ hour.get("winddir16Point") }} {{ hour.get("windspeedKmph") }}
+                        km/h
                     </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-sm-6 floatLeft">Wind</div>
-                        <div class="col-sm-6 floatRight">{{ hour.get("winddir16Point") }} {{ hour.get("windspeedKmph") }} km/h</div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-sm-6 floatLeft">Cloud Cover</div>
-                        <div class="col-sm-6 floatRight">{{ hour.get("cloudcover") }}%</div>
-                    </div>
-                                        <hr/>
-                    <div class="row">
-                        <div class="col-sm-6 floatLeft">visibility</div>
-                        <div class="col-sm-6 floatRight">{{ hour.get("visibility") }}km</div>
-                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-sm-6 floatLeft">Cloud Cover</div>
+                    <div class="col-sm-6 floatRight">{{ hour.get("cloudcover") }}%</div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-sm-6 floatLeft">visibility</div>
+                    <div class="col-sm-6 floatRight">{{ hour.get("visibility") }}km</div>
                 </div>
             </div>
         </div>
+    </div>
     {% endfor %}
 </div>
 
 
-{#<div class="card">#}
-{#    <div class="card-body">#}
-{#        <p class="card-title">#}
-{##}
-{#        </p>#}
-{#    </div>#}
-{#</div>#}
+{#
+<div class="card">#}
+    {#
+    <div class="card-body">#}
+        {# <p class="card-title">#}
+            {##}
+            {# </p>#}
+        {#
+    </div>
+    #}
+    {#
+</div>#}
