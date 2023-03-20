@@ -7,12 +7,12 @@
     <div class="rowSpace"></div>
     <div class="container">
         <div class="row">
-            <div class="col-sm">
+            <div class="col">
                 <div class="row">
                     <div class="card" style="width: 600px">
                         <div class="card-body">
                             <h2 class="card-title text-center">
-                                {% if location == countryRegion[0] %}
+                                {% if countryRegion[0] == countryRegion[1] %}
                                 Country: {{ countryRegion[0] }}
                                 {% else %}
                                 Country: {{ countryRegion[0] }}, Region: {{ countryRegion[1] }}
@@ -30,11 +30,15 @@
                 </div>
                 <div class="rowSpace"></div>
                 <div class="row">
+                    {% include 'chart2.html' %}
+                </div>
+                <div class="rowSpace"></div>
+                <div class="row">
                     {% include 'AQ.html' %}
                 </div>
             </div>
             <div class="rowSpace"></div>
-            <div class="col-sm">
+            <div class="col">
                 {% include 'hourlyDataList.html' %}
             </div>
         </div>

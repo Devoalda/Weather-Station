@@ -22,31 +22,6 @@ CERT = config.get('SSL', 'Cert')
 
 @app.route('/', methods=['GET', 'POST'])
 def search():
-    def get_weather_from_Server(country):
-        # Server Config
-        # Change IP to your server IP
-        try:
-
-            context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-            context.load_verify_locations(CERT)
-            context.check_hostname = False
-
-            clientSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_hostname=SERVER_IP)
-            clientSocket.connect((SERVER_IP, SERVER_PORT))
-
-            clientSocket.send(country.encode())
-            buffer = 20480
-            data = clientSocket.recv(buffer).decode()
-            if data == "Error":
-                payload = None
-            else:
-                payload = json.JSONDecoder().decode(data)
-            clientSocket.close()
-            # print(payload)
-            return payload
-        except:
-            return None
-
     if request.method == 'POST':
         resp = request.form['location']
         if resp is None:
@@ -77,9 +52,11 @@ def index(country):  # put application's code here
             else:
                 payload = json.JSONDecoder().decode(data)
             clientSocket.close()
-            # print(payload)
+            print(payload)
             return payload
-        except:
+        except Exception as e:
+            print("Error!!!")
+            print(e)
             return None
 
 
@@ -111,6 +88,11 @@ def index(country):  # put application's code here
         }
         return circleProgress
 
+    def getMinMaxWeather(apiData):
+        res = list(apiData.keys())[0]
+        minMaxTemp = apiData.get(res).get("weather")
+        return minMaxTemp
+
     def getHourData(apiData):
         res = list(apiData.keys())[0]
         hourlyData = apiData.get(res).get("hourly")
@@ -129,7 +111,7 @@ def index(country):  # put application's code here
     return render_template("index.html", date=getDate(), humidity=getHumidity(apiData),
                            countryRegion=countryRegionDetails(apiData),
                            hourlyData=getHourData(apiData), currentCondition=getCurrentCondition(apiData),
-                           location=location)
+                           location=location, minMaxTemp=getMinMaxWeather(apiData))
 
 
 @app.route('/404')
