@@ -18,6 +18,7 @@ config.read('../Config/config.ini')
 SERVER_PORT = int(config.get('backendServer', 'Port'))
 SERVER_IP = config.get('backendServer', 'IP')
 CERT = config.get('SSL', 'Cert')
+PRIVATEKEY = config.get('SSL', 'PrivateKey')
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -125,4 +126,6 @@ def page_not_found(e):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    context = (CERT, PRIVATEKEY)
+    # Allow http and https
+    app.run(host='0.0.0.0', port=5000, debug=True, ssl_context=context, threaded=True)
