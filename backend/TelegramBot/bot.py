@@ -29,6 +29,7 @@ def send_welcome(message):
 @bot.message_handler(commands=['help'])
 def handle_help(message):
     # Display help message
+    print("Received: " + message.text + " from " + str(message.chat.id))
     bot.reply_to(message, """Available commands:
     /start - Start the bot
     /help - Display this message
@@ -39,6 +40,7 @@ def handle_help(message):
 @bot.message_handler(commands=['weather'])
 def handle_help(message):
     # Display help message
+    print("Received: " + message.text + " from " + str(message.chat.id))
     try:
         country = message.text.split(" ")[1]
     except IndexError:
