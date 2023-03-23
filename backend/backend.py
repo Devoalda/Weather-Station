@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-import ssl
-from json import JSONDecodeError
+import pprint # For printing JSON
 
 import requests  # For getting weather from wttr.in
 import json  # For parsing wttr.in response
@@ -244,7 +243,8 @@ def frontend_get_weather(country, areaName):  # This function will be called by 
     # Make sure country and areaName are in title case
     country = country.title()
     # Get current date
-    date = datetime.datetime.now().strftime("%Y-%m-%d")
+    # date = datetime.datetime.now().strftime("%Y-%m-%d")
+    date = "2023-03-24"
     # If areaName is empty, set it to country
     if areaName == "":
         areaName = country.title()
@@ -333,8 +333,28 @@ def getAllWeatherDescriptions(): #TODO: REMOVE, Probably not needed
 
 
 def main():
-    pass
-
+    file = "File_DB/payload_DB.json"
+    with open(file, "r") as outfile:
+        list_weather = json.load(outfile)
+        outfile.close()
+    # Get Keys
+    keys = list(list_weather.keys())
+    # Countries
+    countries = ["Singapore", "Malaysia", "Indonesia", "Japan", "China", "Thailand", "Vietnam", "Philippines", "India"]
+    country_data = []
+    # print(keys)
+    for key in keys:
+        new_dict = {}
+        key_Country = key.split(", ")[0]
+        key_AreaName = key.split(", ")[1]
+        key_Date = key.split(", ")[2]
+        new_date = "2023-03-24"
+        new_key = key_Country + ", " + key_AreaName + ", " + new_date
+        print(new_key)
+        if key_Country in countries:
+            new_dict[new_key] = list_weather[key]
+            if new_dict not in country_data:
+                save_payload_to_file(new_dict)
 
 if __name__ == '__main__':
     main()
