@@ -349,7 +349,8 @@ def main():
         key_AreaName = key.split(", ")[1]
         key_Date = key.split(", ")[2]
         new_date = "2023-03-24"
-        new_key = key_Country + ", " + key_AreaName + ", " + new_date
+        new_area = key_Country
+        new_key = key_Country + ", " + new_area + ", " + new_date
         print(new_key)
         if key_Country in countries:
             new_dict[new_key] = list_weather[key]
