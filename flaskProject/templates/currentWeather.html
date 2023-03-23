@@ -30,7 +30,7 @@
                 {% elif currentCondition.get("weatherDesc") == "Patchy light snow" or
                 currentCondition.get("weatherDesc") == "Blizzard" %}
                 <img class="currentWeather" src="{{ url_for('static',filename='svg/snowy.svg') }}">
-                {% elif currentCondition.get("weatherDesc") == "Thunderstorm in vicinity"
+                {% elif currentCondition.get("weatherDesc") == "Thunderstorm in vicinity" %}
                 <img class="currentWeather" src="{{ url_for('static',filename='svg/thunder.svg') }}">
                 <div class="text-center">{{currentCondition.get('weatherDesc')}}</d> {% endif %}
                 </div>
