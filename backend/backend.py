@@ -157,34 +157,6 @@ def save_payload_to_file(json_object):
         fcntl.flock(f, fcntl.LOCK_UN)
 
 
-def save_weather_to_file(json_object):  # TODO: REMOVE, probably not required
-    weather_list = []
-    file = "weather.json"
-
-    # Create file if it does not exist
-    with open(file, "a") as outfile:
-        outfile.close()
-
-    # Check if file is empty
-    if (open(file, "r").read() == ""):
-        with open(file, "w") as outfile:
-            weather_list.append(json_object)
-            json.dump(weather_list, outfile, indent=4)
-            outfile.close()
-            return
-
-    # read in a list of dictionaries
-    with open(file, "r") as outfile:
-        weather_list = json.load(outfile)
-        outfile.close()
-
-    weather_list.append(json_object)
-
-    with open("weather.json", "w") as outfile:
-        json.dump(weather_list, outfile, indent=4)
-        outfile.close()
-
-
 def save_weather_to_database(payload):
     # open the json file that has been saved
 
