@@ -101,8 +101,9 @@ def index(country):  # put application's code here
         return hourlyData
 
     def getDate():
+        res = list(apiData.keys())[0].split(",")
         now = datetime.date.today()
-        return now
+        return res[2]
 
     location = country.capitalize()
 
