@@ -13,7 +13,7 @@ SERVER_PORT = int(config.get('backendServer', 'Port'))
 CERT = config.get('SSL', 'Cert')
 PRIVATEKEY = config.get('SSL', 'PrivateKey')
 
-
+# Thread for client connection
 def child(connectionSocket):
     # Receive country from client
     country = connectionSocket.recv(1024).decode()
@@ -49,6 +49,7 @@ def tcpServer(PORT, CERT, PRIVATEKEY):
             print('Connected to :', addr[0], ':', addr[1])
             t = Thread(target=child, args=(connectionSocket,))
             t.start()
+    # Safe exit
     except KeyboardInterrupt:
         print("Keyboard Interrupt, closing server...")
         serverSocket.close()

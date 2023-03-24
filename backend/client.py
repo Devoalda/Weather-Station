@@ -4,6 +4,8 @@ from pprint import pprint
 import ssl
 import configparser
 
+# Sample client that requires server to be running
+
 # Client will use this function to get weather from server
 def get_weather_from_Server(country):
     # Server Config
@@ -13,6 +15,7 @@ def get_weather_from_Server(country):
     SERVER_IP = config.get('backendServer', 'IP')
     CERT = config.get('SSL', 'Cert')
 
+    # Establish connection with server through TLS
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
     context.load_verify_locations(CERT)
     context.check_hostname = False
@@ -20,8 +23,10 @@ def get_weather_from_Server(country):
     clientSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_hostname=SERVER_IP)
     clientSocket.connect((SERVER_IP, SERVER_PORT))
 
+    # Send country to server
     clientSocket.send(country.encode())
     buffer = 10240
+    # Receive weather from server
     data = clientSocket.recv(buffer).decode()
     if data == "Error":
         payload = None
@@ -31,7 +36,9 @@ def get_weather_from_Server(country):
     return payload
 
 def main():
-    pprint(get_weather_from_Server("Singapore"))
+    # Get weather from server through client (Uncomment to test)
+    # pprint(get_weather_from_Server("Singapore"))
+    pass
 
 
 if __name__ == '__main__':

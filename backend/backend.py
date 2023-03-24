@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import pprint # For printing JSON
+import pprint  # For printing JSON
 
 import requests  # For getting weather from wttr.in
 import json  # For parsing wttr.in response
@@ -14,6 +14,7 @@ import fcntl  # For locking file (Read/Write)
 config = configparser.ConfigParser()
 config.read('../Config/config.ini')
 FILE_DB = config.get('FILE_DB', 'FILE_PATH')
+
 
 # Parse wttr.in response and return a dictionary
 def wttr_in_payload_generation(json_object):
@@ -103,7 +104,7 @@ def get_weather_from_WTTRIN(Country):
 
     # Save payload to database
     # Only payload will be saved to database
-    # run function with timeout of 5 secs
+    # run function with timeout of 15 secs
     try:
         t = threading.Timer(15.0, save_weather_to_database, [payload])
         t.start()
@@ -203,37 +204,21 @@ def save_weather_to_database(payload):
     if d.print_all_data() is None:
         d.insert_one(payload)
         print("Payload inserted")
-        # print(payload)
-        # check = list(payload.keys())[1]
-        # print(check)
     else:
         exist = get_weather_from_database(country, areaName, date)
-        # print(exist)
-        # check = list(payload.keys())[0]
         if exist is None:
             d.insert_one(payload)
             print("Weather forecast for country does not exist, inserting payload now")
-            # print(payload)
         else:
             print("Weather forecast for country already exists, here it is")
-            # print(payload)
 
 
 def get_weather_from_database(country, areaName, date):
     # Return payload if found in database
-    # return None instead
-    # Return payload if found in database
     key = country + ", " + areaName + ", " + date
     # return None instead
     d = database.Database()
-    # print(country)
-    # print(areaName)
-    # print(date)
-    # print(key)
-    # print(d.get_weather_from_database(key))
-    # d.print_all_data()
     if d.get_weather_from_database(key) is not None:
-        # print(key)
         return d.get_weather_from_database(key)
     else:
         return None
@@ -284,79 +269,8 @@ def get_weather_from_file(country, areaName, date):
     return ret_payload
 
 
-def old_data_rubbish_collection():  # TODO: REMOVE, Probably not needed
-    # Get date 7 days ago (Can be changed to later date)
-    date_to_delete = datetime.datetime.now().date() - datetime.timedelta(days=7)
-
-    with open("weather.json", "r") as outfile:
-        weather_list = json.load(outfile)
-        outfile.close()
-
-    # Delete all data older than 1 week
-    for item in weather_list:
-        item_date = item["weather"][0]["date"]
-        if datetime.datetime.strptime(item_date, '%Y-%m-%d').date() < date_to_delete:
-            weather_list.remove(item)
-
-    with open("weather.json", "w") as outfile:
-        json.dump(weather_list, outfile)
-        outfile.close()
-
-
-def get_latest_weather_from_file():  # TODO: REMOVE, Probably not needed
-    file = "weather.json"
-    weather_list = []
-
-    with open(file, "r") as outfile:
-        weather_list = json.load(outfile)
-        outfile.close()
-
-    return weather_list[-1]
-
-
-def printKeys(json_object):  # TODO: REMOVE, Probably not needed
-    for key in json_object:
-        print(key)
-
-
-def getAllWeatherDescriptions():  # TODO: REMOVE, Probably not needed
-    with open(FILE_DB, "r") as outfile:
-        weather_dict = json.load(outfile)
-        outfile.close()
-
-    weather_descriptions = []
-    for key in weather_dict:
-        for item in weather_dict[key]["hourly"]:
-            if item["weatherDesc"] not in weather_descriptions:
-                weather_descriptions.append(item["weatherDesc"])
-    return weather_descriptions
-
-
 def main():
     pass
-    # file = "File_DB/payload_DB.json"
-    # with open(file, "r") as outfile:
-    #     list_weather = json.load(outfile)
-    #     outfile.close()
-    # # Get Keys
-    # keys = list(list_weather.keys())
-    # # Countries
-    # countries = ["Singapore", "Malaysia", "Indonesia", "Japan", "China", "Thailand", "Vietnam", "Philippines", "India"]
-    # country_data = []
-    # # print(keys)
-    # for key in keys:
-    #     new_dict = {}
-    #     key_Country = key.split(", ")[0]
-    #     key_AreaName = key.split(", ")[1]
-    #     key_Date = key.split(", ")[2]
-    #     new_date = "2023-03-24"
-    #     new_area = key_Country
-    #     new_key = key_Country + ", " + new_area + ", " + new_date
-    #     print(new_key)
-    #     if key_Country in countries:
-    #         new_dict[new_key] = list_weather[key]
-    #         if new_dict not in country_data:
-    #             save_payload_to_file(new_dict)
 
 
 if __name__ == '__main__':

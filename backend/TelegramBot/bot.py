@@ -17,9 +17,10 @@ CERT = config.get('SSL', 'Cert')
 TOKEN = config.get('TELEGRAM_BOT', 'Token')
 CHANNEL_ID = config.get('TELEGRAM_BOT', 'CHANNEL_ID')
 
+# Start telegram bot
 bot = telebot.TeleBot(TOKEN, parse_mode=None)
 
-
+# Bot handler commands
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     print("Received: " + message.text + " from " + str(message.chat.id))
@@ -37,26 +38,34 @@ def handle_help(message):
     """)
 
 
+# Get weather Command
 @bot.message_handler(commands=['weather'])
 def handle_help(message):
     # Display help message
     print("Received: " + message.text + " from " + str(message.chat.id))
     try:
+        # Get the country from the message
         country = message.text.split(" ")[1]
     except IndexError:
         bot.reply_to(message, "Please enter a country!")
         return
+
+    # Get weather from server
     weather_string = get_weather(country)
+    # Reply to user with weather
     bot.reply_to(message, weather_string)
 
 
+# Client to connect to server
 def get_weather_from_Server(country):
+    # Establish connection with server through TLS
     context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
     context.load_verify_locations('../SSL/certificate.pem')
     context.check_hostname = False
 
     clientSocket = context.wrap_socket(socket(AF_INET, SOCK_STREAM), server_hostname=SERVER_IP)
     try:
+        # Connect to server
         clientSocket.connect((SERVER_IP, SERVER_PORT))
     except ConnectionRefusedError:
         print("Connection refused!")
@@ -64,6 +73,7 @@ def get_weather_from_Server(country):
 
     clientSocket.send(country.encode())
     buffer = 10240
+    # Receive weather from server
     data = clientSocket.recv(buffer).decode()
     if data == "Error":
         payload = None
@@ -73,6 +83,7 @@ def get_weather_from_Server(country):
     return payload
 
 
+# Get Weather and format message to send to user
 def get_weather(country):
     payload = get_weather_from_Server(country)
     if payload is None:
@@ -85,6 +96,8 @@ def get_weather(country):
         return "[WEATHER UPDATE]\nThe weather in " + country + " is " + weather_desc + " at " + weather_temp + " degrees Celsius."
 
 
+# Function to Update the Channel with Singapore Weather Update
+# Format the message to send to channel
 def SG_channel_Update(payload):
     if payload is None:
         return None
@@ -95,7 +108,7 @@ def SG_channel_Update(payload):
         country = payload.get(key).get("current_condition").get("country")
         return "☁️[WEATHER UPDATE]☁️\nThe weather in " + country + " is " + weather_desc + " at " + weather_temp + " degrees Celsius."
 
-
+# Function to check and alert user if it is going to rain in Singapore
 def sgCheckRainy(payload):
     if payload is None:
         return None
@@ -130,6 +143,7 @@ def sgCheckRainy(payload):
         return None
 
 
+# Catchall for other commands
 @bot.message_handler(content_types=['text'])
 def handle_text(message):
     bot.send_message(message.chat.id, "I don't understand what you mean. Type /help to see available commands.")
@@ -137,7 +151,6 @@ def handle_text(message):
 
 # Periodically send weather updates
 def send_weather_updates():
-    # Fix the logic of this
     while True:
         payload = get_weather_from_Server("Singapore")
         update = SG_channel_Update(payload)
@@ -151,6 +164,7 @@ def send_weather_updates():
         time.sleep(60)  # Should be every hour/day but for Demo purposes, every minute
 
 
+# Periodically send rain alerts for Singapore
 def send_rain_update():
     while True:
         payload = get_weather_from_Server("Singapore")
@@ -162,14 +176,19 @@ def send_rain_update():
         time.sleep(30)  # This can be every 1 hour but for Demo purposes, every 30 seconds
 
 
-# send_rain_update()
-# Multiple threads
+# Start the bot and threads
 def start_bot():
     try:
+        # Start the bot
         bot.send_message(CHANNEL_ID, "The Weather Station bot is now online!")
+        # Start weather update thread (Channel)
         t = threading.Thread(target=send_weather_updates).start()
+        # Start rain alert thread (Channel)
         s = threading.Thread(target=send_rain_update).start()
+
+        # Start the bot
         bot.polling()
+
         # Catch SIGKILL
     except KeyboardInterrupt or SystemExit:
         bot.send_message(CHANNEL_ID, "The Weather Station bot is now offline!")
