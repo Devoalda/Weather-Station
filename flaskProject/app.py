@@ -1,16 +1,11 @@
 import datetime
-import pickle
 from flask import Flask, render_template, request, url_for, redirect
 import json
-import requests
 from socket import *
-from pprint import pprint
 import ssl
-import re
 import configparser
-# https://ipinfo.io/json
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '***REMOVED***'
 
 # Configs
 config = configparser.ConfigParser()
@@ -21,7 +16,7 @@ CERT = config.get('SSL', 'Cert')
 PRIVATEKEY = config.get('SSL', 'PrivateKey')
 FRONTEND_PORT = int(config.get('frontendServer', 'Port'))
 
-
+# Site Landing Page
 @app.route('/', methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
@@ -32,7 +27,7 @@ def search():
             return redirect('location/' + resp)
     return render_template('search.html')
 
-
+# Site Navigated to from /Search page if Search returns Value
 @app.route('/location/<country>', methods=['GET', 'POST'])
 def index(country):  # put application's code here
     def get_weather_from_Server(country):
@@ -116,12 +111,12 @@ def index(country):  # put application's code here
                            hourlyData=getHourData(apiData), currentCondition=getCurrentCondition(apiData),
                            location=location, minMaxTemp=getMinMaxWeather(apiData))
 
-
+# Error Site Route
 @app.route('/404')
 def error404():
     return render_template('404.html'), 404
 
-
+# Error handling page for not found sites / locations
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
