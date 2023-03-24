@@ -4,11 +4,11 @@ import pprint # For printing JSON
 import requests  # For getting weather from wttr.in
 import json  # For parsing wttr.in response
 import datetime  # For getting current time
-import threading # For threading
-from pymongo.errors import ServerSelectionTimeoutError # For checking if MongoDB is running
-import configparser # For reading config file
-import database # For database operations
-import fcntl # For locking file (Read/Write)
+import threading  # For threading
+from pymongo.errors import ServerSelectionTimeoutError  # For checking if MongoDB is running
+import configparser  # For reading config file
+import database  # For database operations
+import fcntl  # For locking file (Read/Write)
 
 # Server Config
 config = configparser.ConfigParser()
@@ -303,7 +303,7 @@ def old_data_rubbish_collection():  # TODO: REMOVE, Probably not needed
         outfile.close()
 
 
-def get_latest_weather_from_file(): # TODO: REMOVE, Probably not needed
+def get_latest_weather_from_file():  # TODO: REMOVE, Probably not needed
     file = "weather.json"
     weather_list = []
 
@@ -314,12 +314,12 @@ def get_latest_weather_from_file(): # TODO: REMOVE, Probably not needed
     return weather_list[-1]
 
 
-def printKeys(json_object): #TODO: REMOVE, Probably not needed
+def printKeys(json_object):  # TODO: REMOVE, Probably not needed
     for key in json_object:
         print(key)
 
 
-def getAllWeatherDescriptions(): #TODO: REMOVE, Probably not needed
+def getAllWeatherDescriptions():  # TODO: REMOVE, Probably not needed
     with open(FILE_DB, "r") as outfile:
         weather_dict = json.load(outfile)
         outfile.close()
@@ -333,29 +333,31 @@ def getAllWeatherDescriptions(): #TODO: REMOVE, Probably not needed
 
 
 def main():
-    file = "File_DB/payload_DB.json"
-    with open(file, "r") as outfile:
-        list_weather = json.load(outfile)
-        outfile.close()
-    # Get Keys
-    keys = list(list_weather.keys())
-    # Countries
-    countries = ["Singapore", "Malaysia", "Indonesia", "Japan", "China", "Thailand", "Vietnam", "Philippines", "India"]
-    country_data = []
-    # print(keys)
-    for key in keys:
-        new_dict = {}
-        key_Country = key.split(", ")[0]
-        key_AreaName = key.split(", ")[1]
-        key_Date = key.split(", ")[2]
-        new_date = "2023-03-24"
-        new_area = key_Country
-        new_key = key_Country + ", " + new_area + ", " + new_date
-        print(new_key)
-        if key_Country in countries:
-            new_dict[new_key] = list_weather[key]
-            if new_dict not in country_data:
-                save_payload_to_file(new_dict)
+    pass
+    # file = "File_DB/payload_DB.json"
+    # with open(file, "r") as outfile:
+    #     list_weather = json.load(outfile)
+    #     outfile.close()
+    # # Get Keys
+    # keys = list(list_weather.keys())
+    # # Countries
+    # countries = ["Singapore", "Malaysia", "Indonesia", "Japan", "China", "Thailand", "Vietnam", "Philippines", "India"]
+    # country_data = []
+    # # print(keys)
+    # for key in keys:
+    #     new_dict = {}
+    #     key_Country = key.split(", ")[0]
+    #     key_AreaName = key.split(", ")[1]
+    #     key_Date = key.split(", ")[2]
+    #     new_date = "2023-03-24"
+    #     new_area = key_Country
+    #     new_key = key_Country + ", " + new_area + ", " + new_date
+    #     print(new_key)
+    #     if key_Country in countries:
+    #         new_dict[new_key] = list_weather[key]
+    #         if new_dict not in country_data:
+    #             save_payload_to_file(new_dict)
+
 
 if __name__ == '__main__':
     main()
