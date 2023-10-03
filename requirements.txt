@@ -12,6 +12,6 @@ MarkupSafe==2.1.2
 pymongo==4.3.3
 pyTelegramBotAPI==4.10.0
 requests==2.28.2
-urllib3==1.26.15
+urllib3==1.26.17
 Werkzeug==2.2.3
 zipp==3.15.0
